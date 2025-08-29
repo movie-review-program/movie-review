@@ -3,16 +3,25 @@ plugins {
 }
 
 group = 'org.example'
-version = '1.0-SNAP\n' +
-        '}\n' +
-        '\n' +
-        'dependencies {\n' +
-        '    testImplementation platform(\'org.junit:junit-bom:5.10.0\')\n' +
-        '    testImplementation \'org.junit.jupiter:junit-jupiter\'\n' +
-        '}SHOT'
+version = '1.0-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
 
 repositories {
     mavenCentral()
+}
+
+dependencies {
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+
+    runtimeOnly 'com.mysql:mysql-connector-j:8.4.0'
+
+}
 
 test {
     useJUnitPlatform()
