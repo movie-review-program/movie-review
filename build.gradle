@@ -1,0 +1,19 @@
+plugins {
+    id 'java'
+}
+
+group = 'org.example'
+version = '1.0-SNAP\n' +
+        '}\n' +
+        '\n' +
+        'dependencies {\n' +
+        '    testImplementation platform(\'org.junit:junit-bom:5.10.0\')\n' +
+        '    testImplementation \'org.junit.jupiter:junit-jupiter\'\n' +
+        '}SHOT'
+
+repositories {
+    mavenCentral()
+
+test {
+    useJUnitPlatform()
+}
