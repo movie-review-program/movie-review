@@ -45,3 +45,4 @@ bin/
 ### secret ###
 *.pem
 .env
+.profileconfig.json
