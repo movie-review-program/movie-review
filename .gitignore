@@ -46,3 +46,6 @@ bin/
 *.pem
 .env
 .profileconfig.json
+
+### settings ###
+src/main/resources/application.properties
