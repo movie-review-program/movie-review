@@ -262,7 +262,7 @@ public class MovieReviewSystem {
             MovieReviewOutputUI.clearScreen();
             MovieReviewOutputUI.showUsernamePrompt();
             
-            String username = inputUI.getGeneralChoice().trim();
+            String username = inputUI.getChoice();
             
             if (username.equals("0")) {
                 return null; // 취소
@@ -297,7 +297,7 @@ public class MovieReviewSystem {
             MovieReviewOutputUI.clearScreen();
             MovieReviewOutputUI.showPasswordPrompt();
             
-            String password = inputUI.getGeneralChoice().trim();
+            String password = inputUI.getChoice();
             
             if (password.equals("0")) {
                 return null; // 취소
@@ -310,7 +310,7 @@ public class MovieReviewSystem {
             }
             
             MovieReviewOutputUI.showPasswordConfirmPrompt();
-            String confirmPassword = inputUI.getGeneralChoice().trim();
+            String confirmPassword = inputUI.getChoice();
             
             if (!password.equals(confirmPassword)) {
                 MovieReviewOutputUI.showErrorMessage("비밀번호가 일치하지 않습니다.");
@@ -326,7 +326,7 @@ public class MovieReviewSystem {
         MovieReviewOutputUI.clearScreen();
         MovieReviewOutputUI.showNamePrompt();
         
-        String name = inputUI.getGeneralChoice().trim();
+        String name = inputUI.getChoice();
         
         if (name.equals("0")) {
             return null; // 취소
@@ -346,7 +346,7 @@ public class MovieReviewSystem {
             MovieReviewOutputUI.clearScreen();
             MovieReviewOutputUI.showEmailPrompt();
             
-            String email = inputUI.getGeneralChoice().trim();
+            String email = inputUI.getChoice();
             
             if (email.equals("0")) {
                 return null; // 취소
@@ -386,7 +386,7 @@ public class MovieReviewSystem {
             MovieReviewOutputUI.clearScreen();
             MovieReviewOutputUI.showEmailVerificationPrompt(email);
             
-            String inputCode = inputUI.getGeneralChoice().trim();
+            String inputCode = inputUI.getChoice();
             
             if (inputCode.equals("0")) {
                 return false; // 취소
@@ -421,7 +421,7 @@ public class MovieReviewSystem {
             MovieReviewOutputUI.clearScreen();
             MovieReviewOutputUI.showSignupSummary(username, name, email);
             
-            String choice = inputUI.getGeneralChoice().trim().toLowerCase();
+            String choice = inputUI.getChoice().toLowerCase();
             
             if (choice.equals("y")) {
                 // 사용자 생성 및 저장 (실제 구현에서는 데이터베이스에 저장)
@@ -435,6 +435,7 @@ public class MovieReviewSystem {
                 currentUser = newUser;
                 showMainMenu();
                 break;
+                
             } else if (choice.equals("n")) {
                 MovieReviewOutputUI.showSuccessMessage("회원가입이 취소되었습니다.");
                 inputUI.waitForEnter();
@@ -461,7 +462,7 @@ public class MovieReviewSystem {
             MovieReviewOutputUI.clearScreen();
             MovieReviewOutputUI.showMainMenu(currentUser.getName());
             
-            String choice = inputUI.getMainMenuChoice();
+            String choice = inputUI.getChoice();
             
             switch (choice) {
                 case "1":
@@ -491,7 +492,7 @@ public class MovieReviewSystem {
             MovieReviewOutputUI.clearScreen();
             MovieReviewOutputUI.showMovieList(movies);
             
-            String choice = inputUI.getMovieChoice();
+            String choice = inputUI.getChoice();
             
             if (choice.equals("0")) {
                 break; // 메인 메뉴로 돌아가기
@@ -532,7 +533,7 @@ public class MovieReviewSystem {
         System.out.println("│  0. 🔙 뒤로가기                                │");
         System.out.println("└─────────────────────────────────────────────────┘");
         
-        String choice = inputUI.getGeneralChoice();
+        String choice = inputUI.getChoice();
         switch (choice) {
             case "1":
                 MovieReviewOutputUI.showSuccessMessage("리뷰 작성 기능은 향후 구현 예정입니다.");
@@ -555,7 +556,7 @@ public class MovieReviewSystem {
         MovieReviewOutputUI.clearScreen();
         MovieReviewOutputUI.showWriteReviewPage();
         
-        String choice = inputUI.getGeneralChoice();
+        String choice = inputUI.getChoice();
         if (!choice.equals("0")) {
             MovieReviewOutputUI.showErrorMessage("올바른 번호를 입력해주세요.");
             inputUI.waitForEnter();
@@ -567,7 +568,7 @@ public class MovieReviewSystem {
         MovieReviewOutputUI.clearScreen();
         MovieReviewOutputUI.showFollowerFeedPage();
         
-        String choice = inputUI.getGeneralChoice();
+        String choice = inputUI.getChoice();
         if (!choice.equals("0")) {
             MovieReviewOutputUI.showErrorMessage("올바른 번호를 입력해주세요.");
             inputUI.waitForEnter();
@@ -580,7 +581,7 @@ public class MovieReviewSystem {
             MovieReviewOutputUI.clearScreen();
             MovieReviewOutputUI.showMyInfo(currentUser);
             
-            String choice = inputUI.getMyInfoChoice();
+            String choice = inputUI.getChoice();
             
             switch (choice) {
                 case "1":

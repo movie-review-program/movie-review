@@ -14,22 +14,7 @@ class MovieReviewInputUI {
      return scanner.nextLine().trim();
  }
  
- public String getMainMenuChoice() {
-     System.out.print("  선택: ");
-     return scanner.nextLine().trim();
- }
- 
- public String getMovieChoice() {
-     System.out.print("  선택: ");
-     return scanner.nextLine().trim();
- }
- 
- public String getMyInfoChoice() {
-     System.out.print("  선택: ");
-     return scanner.nextLine().trim();
- }
- 
- public String getGeneralChoice() {
+ public String getChoice() {
      System.out.print("  선택: ");
      return scanner.nextLine().trim();
  }
