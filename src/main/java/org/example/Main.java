@@ -7,7 +7,7 @@ public class Main {
         /*
         * data
         * */
-        MovieController movieController = new MovieController();
-        movieController.fetchMovieWithGenre("20250830");
+        MovieController.fetchMovieWithGenre("20250830");
+
     }
 }

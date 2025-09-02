@@ -1,6 +1,7 @@
 package org.example.infra.movie;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -49,8 +50,12 @@ public class KobisDetailResponseDTO {
             return openDate;
         }
 
-        public List<Genre> getGenres() {
-            return genres;
+        public List<String> getGenres() {
+            List<String> genreToStringList = new ArrayList<>();
+            for (Genre g : genres) {
+                genreToStringList.add(g.getGenreName());
+            }
+            return genreToStringList;
         }
 
         public List<Director> getDirectors() {
