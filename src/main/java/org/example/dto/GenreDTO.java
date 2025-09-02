@@ -1,10 +1,10 @@
-package org.example.domain;
+package org.example.dto;
 
-public class Genre {
+public class GenreDTO {
     private Long genreNo;
     private String genreName;
 
-    public Genre(String genreName) {
+    public GenreDTO(String genreName) {
         this.genreName = genreName;
     }
 

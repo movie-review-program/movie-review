@@ -1,18 +1,18 @@
-package org.example.domain;
+package org.example.dto;
 
 import java.util.Date;
 import java.util.List;
 
-public class Movie {
+public class MovieDTO {
     private Long movieNo;
     private String movieName;
     private String director;
     private String plot;
     private int audiCnt;
     private Date openDate;
-    private List<Genre> genres;
+    private List<GenreDTO> genreDTOS;
 
-    Movie(String movieName, String director, String plot, int audiCnt) {
+    MovieDTO(String movieName, String director, String plot, int audiCnt) {
         this.movieName = movieName;
         this.director = director;
         this.plot = plot;
