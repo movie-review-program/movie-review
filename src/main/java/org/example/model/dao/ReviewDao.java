@@ -12,7 +12,7 @@ public interface ReviewDao {
 	 * @return
 	 * @throws NotFoundException
 	 */
-	List<Review> findReviewsByMovieNo(int movieNo) throws NotFoundException;
+	List<Review> findReviewsByMovieNo(int movieNo) throws Exception;
 	
 	/**
 	 * 현재 사용자(유저)가 작성한 리뷰 조회
@@ -20,7 +20,7 @@ public interface ReviewDao {
 	 * @return
 	 * @throws NotFoundException
 	 */
-	List<Review> findReviewsByUserNo(int userNo) throws NotFoundException;
+	List<Review> findReviewsByUserNo(int userNo) throws Exception;
 	
 	/**
 	 * 현재 사용자(유저)가 좋아요 한 리뷰 조회
@@ -29,7 +29,7 @@ public interface ReviewDao {
 	 * @return
 	 * @throws NotFoundException
 	 */
-	List<Review> findReviewsByLike(int likeNo) throws NotFoundException;
+	List<Review> findReviewsByLike(int likeNo) throws Exception;
 	
 	/**
 	 * 리뷰 작성

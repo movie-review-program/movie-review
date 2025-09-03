@@ -23,7 +23,7 @@ public class ReviewDaoImpl implements ReviewDao {
 	}
 
 	@Override
-	public List<Review> findReviewsByMovieNo(int movieNo) throws NotFoundException {
+	public List<Review> findReviewsByMovieNo(int movieNo) throws Exception {
 		List<Review> list = new ArrayList<>();
 		String sql = "select * from reviews where movie_no = ?";
 		
@@ -52,7 +52,7 @@ public class ReviewDaoImpl implements ReviewDao {
 	}
 
 	@Override
-	public List<Review> findReviewsByUserNo(int userNo) throws NotFoundException {
+	public List<Review> findReviewsByUserNo(int userNo) throws Exception {
 		List<Review> list = new ArrayList<>();
 		String sql = "select * from reviews where user_no = ?";
 		
@@ -79,7 +79,7 @@ public class ReviewDaoImpl implements ReviewDao {
 	}
 
 	@Override
-	public List<Review> findReviewsByLike(int userNo) throws NotFoundException {
+	public List<Review> findReviewsByLike(int userNo) throws Exception {
 		List<Review> list = new ArrayList<>();
 		List<Integer> reviewNoList = new ArrayList<>();
 		String sql = "select review_no from likes where user_no = ?";
@@ -103,7 +103,7 @@ public class ReviewDaoImpl implements ReviewDao {
 		return list;
 	}
 	
-	private List<Review> findReviewsByReviewNos(Connection con, List<Integer> reviewNoList) throws NotFoundException {
+	private List<Review> findReviewsByReviewNos(Connection con, List<Integer> reviewNoList) throws Exception {
 		List<Review> list = new ArrayList<>();
 		
 		String nos = reviewNoList.toString();
