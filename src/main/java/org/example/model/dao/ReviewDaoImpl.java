@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.example.exception.NotFoundException;
 import org.example.model.dto.Review;
 import org.example.util.DBManager;
 import org.example.util.DBManagerImpl;
@@ -204,7 +203,7 @@ public class ReviewDaoImpl implements ReviewDao {
 	}
 
 	@Override
-	public int insertReview(Review review) {
+	public int insertReview(Review review) throws Exception {
 		int result = 0;
 		String sql = "insert into reviews(rating,content,user_no,movie_no) "
 				+ "values(?, ?, ?, ?);";
@@ -226,7 +225,7 @@ public class ReviewDaoImpl implements ReviewDao {
 	}
 
 	@Override
-	public int updateReview(Review review) {
+	public int updateReview(Review review) throws Exception {
 		int result = 0;
 		String sql = "update reviews set rating = ?, content = ? where review_no = ?";
 		
@@ -246,7 +245,7 @@ public class ReviewDaoImpl implements ReviewDao {
 	}
 
 	@Override
-	public int deleteReview(int reviewNo) {
+	public int deleteReview(int reviewNo) throws Exception {
 		int result = 0;
 		String sql = "delete from reviews where review_no = ?";
 		
@@ -263,4 +262,60 @@ public class ReviewDaoImpl implements ReviewDao {
 		return result;
 	}
 
+	@Override
+	public int insertLike(int userNo, int reviewNo) throws Exception {
+		int result = 0;
+		String sql = "insert into likes(user_no, review_no) "
+				+ "values(?, ?);";
+		
+		try (Connection con = dbManager.getConnection();
+				PreparedStatement ps = con.prepareStatement(sql);) {
+			ps.setInt(1, userNo);
+			ps.setInt(2, reviewNo);
+			
+			result = ps.executeUpdate();
+		} catch (SQLException e) {
+			//e.printStackTrace();
+			// TODO 사용자정의 예외 처리
+		}
+		
+		return result;
+	}
+
+	@Override
+	public int deleteLike(int userNo, int reviewNo) throws Exception {
+		int result = 0;
+		String sql = "delete from likes where user_no = ? and review_no = ?";
+		
+		try (Connection con = dbManager.getConnection();
+				PreparedStatement ps = con.prepareStatement(sql);) {
+			ps.setInt(1, userNo);
+			ps.setInt(2, reviewNo);
+			
+			result = ps.executeUpdate();
+		} catch (SQLException e) {
+			//e.printStackTrace();
+			// TODO 사용자정의 예외 처리
+		}
+		
+		return result;
+	}
+
+	@Override
+	public int getLikeCount(int reviewNo) throws Exception {
+		int result = 0;
+		String sql = "select count(user_no) from likes where review_no = ?";
+		
+		try (Connection con = dbManager.getConnection();
+				PreparedStatement ps = con.prepareStatement(sql);) {
+			ps.setInt(1, reviewNo);
+			
+			result = ps.executeUpdate();
+		} catch (SQLException e) {
+			//e.printStackTrace();
+			// TODO 사용자정의 예외 처리
+		}
+		
+		return result;
+	}
 }

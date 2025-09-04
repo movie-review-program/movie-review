@@ -2,7 +2,6 @@ package org.example.model.dao;
 
 import java.util.List;
 
-import org.example.exception.NotFoundException;
 import org.example.model.dto.Review;
 
 public interface ReviewDao {
@@ -60,19 +59,41 @@ public interface ReviewDao {
 	 * @param review
 	 * @return
 	 */
-	int insertReview(Review review);
+	int insertReview(Review review) throws Exception;
 	
 	/**
 	 * 현재 사용자(유저)가 작성한 리뷰 수정
 	 * @param review
 	 * @return
 	 */
-	int updateReview(Review review);
+	int updateReview(Review review) throws Exception;
 	
 	/**
 	 * 현재 사용자(유저)가 선택한 리뷰 삭제
 	 * @param reviewNo
 	 * @return
 	 */
-	int deleteReview(int reviewNo);
+	int deleteReview(int reviewNo) throws Exception;
+	
+	/**
+	 * 리뷰에 좋아요 등록
+	 * @param reviewNo
+	 * @return
+	 */
+	int insertLike(int userNo, int reviewNo) throws Exception;
+	
+	/**
+	 * 좋아요 삭제
+	 * @param reviewNo
+	 * @return
+	 */
+	int deleteLike(int userNo, int reviewNo) throws Exception;
+	
+	/**
+	 * 해당 리뷰의 좋아요 개수를 조회
+	 * @param reviewNo
+	 * @return
+	 * @throws Exception
+	 */
+	int getLikeCount(int reviewNo) throws Exception;
 }
