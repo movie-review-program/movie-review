@@ -10,14 +10,17 @@ public class Review {
 	
 	public Review() {}
 
-	public Review(int reviewNo, int rating, String content, String regDate, int movieNo, int userNo) {
-		super();
-		this.reviewNo = reviewNo;
+	public Review(int rating, String content, int movieNo, int userNo) {
 		this.rating = rating;
 		this.content = content;
-		this.regDate = regDate;
 		this.movieNo = movieNo;
 		this.userNo = userNo;
+	}
+
+	public Review(int reviewNo, int rating, String content, String regDate, int movieNo, int userNo) {
+		this(rating, content, movieNo, userNo);
+		this.reviewNo = reviewNo;
+		this.regDate = regDate;
 	}
 
 	public int getReviewNo() {
