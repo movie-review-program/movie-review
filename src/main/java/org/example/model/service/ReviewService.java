@@ -19,10 +19,10 @@ public interface ReviewService {
 	/**
 	 * 현재 사용자(유저)가 좋아요 한 모든 리뷰 조회
 	 */
-	List<Review> findReviewsByLike(int likeNo) throws Exception;
+	List<Review> findReviewsByLike(int userNo) throws Exception;
 	
 	/**
-	 * 리뷰 작성
+	 * 리뷰 등록
 	 */
 	void insertReview(Review review) throws Exception;
 	

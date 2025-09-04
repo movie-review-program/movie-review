@@ -29,10 +29,10 @@ public interface ReviewDao {
 	 * @return
 	 * @throws NotFoundException
 	 */
-	List<Review> findReviewsByLike(int likeNo) throws Exception;
+	List<Review> findReviewsByLike(int userNo) throws Exception;
 	
 	/**
-	 * 리뷰 작성
+	 * 리뷰 등록
 	 * @param review
 	 * @return
 	 */
