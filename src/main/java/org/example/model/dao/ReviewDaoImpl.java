@@ -23,23 +23,23 @@ public class ReviewDaoImpl implements ReviewDao {
 	}
 
 	@Override
-	public List<Review> findReviewsByMovieNo(long movieNo) throws Exception {
+	public List<Review> findReviewsByMovieNo(int movieNo) throws Exception {
 		List<Review> list = new ArrayList<>();
 		String sql = "select * from reviews where movie_no = ?";
 		
 		try (Connection con = dbManager.getConnection();
 				PreparedStatement ps = con.prepareStatement(sql);) {
-			ps.setLong(1, movieNo);
+			ps.setInt(1, movieNo);
 			
 			try (ResultSet rs = ps.executeQuery();) {
 				while (rs.next()) {
 					list.add(new Review(
-							rs.getLong(1), 
+							rs.getInt(1), 
 							rs.getInt(2), 
 							rs.getString(3), 
 							rs.getString(4), 
-							rs.getLong(5), 
-							rs.getLong(6)));
+							rs.getInt(5), 
+							rs.getInt(6)));
 				}
 			}
 		} catch (SQLException e) {
@@ -52,22 +52,22 @@ public class ReviewDaoImpl implements ReviewDao {
 	}
 
 	@Override
-	public List<Review> findReviewsByUserNo(long userNo) throws Exception {
+	public List<Review> findReviewsByUserNo(int userNo) throws Exception {
 		List<Review> list = new ArrayList<>();
 		String sql = "select * from reviews where user_no = ?";
 		
 		try (Connection con = dbManager.getConnection();
 				PreparedStatement ps = con.prepareStatement(sql);) {
-			ps.setLong(1, userNo);
+			ps.setInt(1, userNo);
 			try (ResultSet rs = ps.executeQuery();) {
 				while (rs.next()) {
 					list.add(new Review(
-							rs.getLong(1), 
+							rs.getInt(1), 
 							rs.getInt(2), 
 							rs.getString(3), 
 							rs.getString(4), 
-							rs.getLong(5), 
-							rs.getLong(6)));
+							rs.getInt(5), 
+							rs.getInt(6)));
 				}				
 			}
 		} catch (SQLException e) {
@@ -79,18 +79,18 @@ public class ReviewDaoImpl implements ReviewDao {
 	}
 
 	@Override
-	public List<Review> findReviewsByLike(long userNo) throws Exception {
+	public List<Review> findReviewsByLike(int userNo) throws Exception {
 		List<Review> list = new ArrayList<>();
-		List<Long> reviewNoList = new ArrayList<>();
+		List<Integer> reviewNoList = new ArrayList<>();
 		String sql = "select review_no from likes where user_no = ?";
 		
 		try (Connection con = dbManager.getConnection();
 				PreparedStatement ps = con.prepareStatement(sql);) {
-			ps.setLong(1, userNo);
+			ps.setInt(1, userNo);
 			
 			try (ResultSet rs = ps.executeQuery();) {
 				while (rs.next()) {
-					reviewNoList.add(rs.getLong("review_no"));
+					reviewNoList.add(rs.getInt("review_no"));
 				}
 				
 				list = findReviewsByReviewNos(con, reviewNoList);
@@ -103,7 +103,7 @@ public class ReviewDaoImpl implements ReviewDao {
 		return list;
 	}
 	
-	private List<Review> findReviewsByReviewNos(Connection con, List<Long> reviewNoList) throws Exception {
+	private List<Review> findReviewsByReviewNos(Connection con, List<Integer> reviewNoList) throws Exception {
 		List<Review> list = new ArrayList<>();
 		
 		String nos = reviewNoList.toString();
@@ -115,12 +115,12 @@ public class ReviewDaoImpl implements ReviewDao {
 				ResultSet rs = ps.executeQuery();) {
 			while (rs.next()) {
 				list.add(new Review(
-						rs.getLong(1), 
+						rs.getInt(1), 
 						rs.getInt(2), 
 						rs.getString(3), 
 						rs.getString(4), 
-						rs.getLong(5), 
-						rs.getLong(6)));
+						rs.getInt(5), 
+						rs.getInt(6)));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -131,13 +131,13 @@ public class ReviewDaoImpl implements ReviewDao {
 	}
 	
 	@Override
-	public int getReviewCount(long movieNo) throws Exception {
+	public int getReviewCount(int movieNo) throws Exception {
 		int count = 0;
 		String sql = "select count(*) from reviews where movie_no = ?";
 		
 		try (Connection con = dbManager.getConnection();
 				PreparedStatement ps = con.prepareStatement(sql);) {
-			ps.setLong(1, movieNo);
+			ps.setInt(1, movieNo);
 			
 			try (ResultSet rs = ps.executeQuery();) {
 				if (rs.next()) {
@@ -153,13 +153,13 @@ public class ReviewDaoImpl implements ReviewDao {
 	}
 	
 	@Override
-	public double getAverageRating(long movieNo) throws Exception {
+	public double getAverageRating(int movieNo) throws Exception {
 		double avg = 0;
 		String sql = "select avg(rating) from reviews where movie_no = ?"; 
 		
 		try (Connection con = dbManager.getConnection();
 				PreparedStatement ps = con.prepareStatement(sql);) {
-			ps.setLong(1, movieNo);
+			ps.setInt(1, movieNo);
 			
 			try (ResultSet rs = ps.executeQuery();) {
 				if (rs.next()) {
@@ -184,8 +184,8 @@ public class ReviewDaoImpl implements ReviewDao {
 				PreparedStatement ps = con.prepareStatement(sql);) {
 			ps.setInt(1, review.getRating());
 			ps.setString(2, review.getContent());
-			ps.setLong(3, review.getUserNo());
-			ps.setLong(4, review.getMovieNo());
+			ps.setInt(3, review.getUserNo());
+			ps.setInt(4, review.getMovieNo());
 			
 			result = ps.executeUpdate();
 		} catch (SQLException e) {
@@ -205,7 +205,7 @@ public class ReviewDaoImpl implements ReviewDao {
 				PreparedStatement ps = con.prepareStatement(sql);) {
 			ps.setInt(1, review.getRating());
 			ps.setString(2, review.getContent());
-			ps.setLong(3, review.getReviewNo());
+			ps.setInt(3, review.getReviewNo());
 			
 			result = ps.executeUpdate();
 		} catch (SQLException e) {
@@ -217,13 +217,13 @@ public class ReviewDaoImpl implements ReviewDao {
 	}
 
 	@Override
-	public int deleteReview(long reviewNo) {
+	public int deleteReview(int reviewNo) {
 		int result = 0;
 		String sql = "delete from reviews where review_no = ?";
 		
 		try (Connection con = dbManager.getConnection();
 				PreparedStatement ps = con.prepareStatement(sql);) {
-			ps.setLong(1, reviewNo);
+			ps.setInt(1, reviewNo);
 			
 			result = ps.executeUpdate();
 		} catch (SQLException e) {

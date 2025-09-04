@@ -12,7 +12,7 @@ public interface ReviewDao {
 	 * @return
 	 * @throws Exception
 	 */
-	List<Review> findReviewsByMovieNo(long movieNo) throws Exception;
+	List<Review> findReviewsByMovieNo(int movieNo) throws Exception;
 	
 	/**
 	 * 현재 사용자(유저)가 작성한 리뷰 조회
@@ -20,7 +20,7 @@ public interface ReviewDao {
 	 * @return
 	 * @throws Exception
 	 */
-	List<Review> findReviewsByUserNo(long userNo) throws Exception;
+	List<Review> findReviewsByUserNo(int userNo) throws Exception;
 	
 	/**
 	 * 현재 사용자(유저)가 좋아요 한 리뷰 조회
@@ -29,7 +29,7 @@ public interface ReviewDao {
 	 * @return
 	 * @throws Exception
 	 */
-	List<Review> findReviewsByLike(long userNo) throws Exception;
+	List<Review> findReviewsByLike(int userNo) throws Exception;
 	
 	/**
 	 * 해당 영화의 리뷰 개수를 조회
@@ -37,7 +37,7 @@ public interface ReviewDao {
 	 * @return
 	 * @throws Exception
 	 */
-	int getReviewCount(long movieNo) throws Exception;
+	int getReviewCount(int movieNo) throws Exception;
 	
 	/**
 	 * 해당 영화의 평균 별점(평점)을 조회
@@ -45,7 +45,7 @@ public interface ReviewDao {
 	 * @return
 	 * @throws Exception
 	 */
-	double getAverageRating(long movieNo) throws Exception;
+	double getAverageRating(int movieNo) throws Exception;
 	
 	/**
 	 * 리뷰 등록
@@ -66,5 +66,5 @@ public interface ReviewDao {
 	 * @param reviewNo
 	 * @return
 	 */
-	int deleteReview(long reviewNo);
+	int deleteReview(int reviewNo);
 }
