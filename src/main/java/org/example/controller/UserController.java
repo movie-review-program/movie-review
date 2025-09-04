@@ -1,55 +1,62 @@
 package org.example.controller;
 
+import java.sql.SQLException;
+
 import org.example.model.dto.User;
 import org.example.model.service.UserService;
 import org.example.model.service.UserServiceImpl;
 import org.example.util.SessionManagerImpl;
-import org.example.view.AuthView;
 
-/**
- * UserController
- * - Service 계층 호출만 담당
- * - 입력값 검증 로직은 모두 Service에 위임
- * - View와 Service 사이의 다리 역할
- */
 public class UserController {
     private UserService userService = new UserServiceImpl();
     private SessionManagerImpl sessionManager = SessionManagerImpl.getInstance();
 
-    // ================== 회원가입 ==================
-    public boolean handleSignup(String email, String password, String name) {
-        User loginUser = userService.registerAndLogin(new User(email, password, name));
-
-        if (loginUser != null) {
-            sessionManager.login(loginUser); // 세션 저장만 Controller에서 수행
-            return true;
+  
+    public User handleSignup(String email, String password, String name) {
+        try {
+            User loginUser = userService.registerAndLogin(new User(email, password, name));
+            sessionManager.login(loginUser);
+            return loginUser; 
+        } catch (SQLException e) {
+            System.err.println("DB 오류(회원가입): " + e.getMessage());
+            return null;
+        } catch (Exception e) {
+            System.err.println("회원가입 실패: " + e.getMessage());
+            return null;
         }
-        return false;
     }
 
-    // ================== 로그인 ==================
-    public boolean handleLogin(String email, String password) {
-        User user = userService.login(email, password);
-
-        if (user != null) {
+   
+    public User handleLogin(String email, String password) {
+        try {
+            User user = userService.login(email, password);
             sessionManager.login(user);
-            return true;
+            return user; 
+        } catch (SQLException e) {
+            System.err.println("DB 오류(로그인): " + e.getMessage());
+            return null;
+        } catch (Exception e) {
+            System.err.println("로그인 실패: " + e.getMessage());
+            return null;
         }
-        return false;
     }
 
-    public boolean handleLogout() {
-        if (sessionManager.isLoggedIn()) {
-            String userName = sessionManager.getCurrentUserName(); // 로그아웃 전 이름 저장
+  
+    public String handleLogout() {
+        try {
+            if (!sessionManager.isLoggedIn()) {
+                throw new Exception("로그인된 사용자가 없습니다.");
+            }
+            String userName = sessionManager.getCurrentUserName();
             sessionManager.logout();
-            new AuthView.LogoutSuccessView().render(userName); // 저장해둔 이름 전달
-            return true;
+            return userName; 
+        } catch (Exception e) {
+            System.err.println("로그아웃 실패: " + e.getMessage());
+            return null;
         }
-        new AuthView.LogoutFailView().render();
-        return false;
     }
 
-    // ================== 세션 확인 ==================
+  
     public boolean isLoggedIn() {
         return sessionManager.isLoggedIn();
     }

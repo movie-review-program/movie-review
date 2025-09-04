@@ -1,9 +1,10 @@
 package org.example.model.dao;
 
 import org.example.model.dto.User;
+import java.sql.SQLException;
 
 public interface UserDAO {
-    boolean isEmailDuplicate(String email);   // 이메일 중복 여부
-    boolean registerUser(User user);          // 회원가입
-    User login(String email, String password); // 로그인
+    boolean isEmailDuplicate(String email) throws SQLException;
+    boolean registerUser(User user) throws SQLException;        
+    User login(String email, String password) throws SQLException; 
 }
