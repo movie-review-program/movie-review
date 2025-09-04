@@ -28,8 +28,8 @@ public class TestViewMJ {
 		// 이러면 controller 의 메소드들이 리턴값이 있어야 함 -> X
 		Review review = ReviewController.findReviewByReviewNo(reviewNo);
 		Movie movie = movieService.findMovieByMovieNo(review.getMovieNo());
-		String userName = userService.findUserByUserNo(userNo);
-		printReviewFromUser(userName, review, movie);
+		User user = userService.findUserByUserNo(userNo);
+		printReviewFromUser(user.getUserName(), review, movie);
 		 */
 	}
 	

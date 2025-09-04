@@ -1,5 +1,9 @@
 package org.example.controller;
 
+import java.time.LocalDate;
+import java.util.List;
+
+import org.example.model.dto.Genre;
 import org.example.model.dto.Movie;
 import org.example.model.dto.Review;
 import org.example.model.service.ReviewService;
@@ -18,7 +22,7 @@ public class ReviewController {
 	public static void findReviewByReviewNo(int userNo, int reviewNo) {
 		try {
 			Review review = reviewService.findReviewByReviewNo(reviewNo);
-			Movie movie = new Movie("테스트영화제목", "테스트감독", null, 0, null, null);
+			Movie movie = new Movie("테스트영화제목", "테스트감독", null, null, 100, null);
 			String userName = "유저1";
 			
 			TestViewMJ.printReview(userName, review, movie);
