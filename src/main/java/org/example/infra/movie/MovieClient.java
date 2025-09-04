@@ -3,6 +3,7 @@ package org.example.infra.movie;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
+import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -32,7 +33,7 @@ public class MovieClient {
     private static final String kobisKey;
 
     private static final String KMDB_URL = "https://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp?" +
-            "collection=kmdb_new2&detail=N&nation=대한민국";
+            "collection=kmdb_new2&detail=N&nation=" + enc("대한민국");
     private static final String KOBIS_DAILY_URL = "https://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?" +
             "itemPerPage=10&multiMovieYn=N&repNationCd=K";
     private static final String KOBIS_DETAIL_URL = "https://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json?";
@@ -56,8 +57,8 @@ public class MovieClient {
     // responseDTO.getData().get(0).getResult().get(0).getPlots().getPlot().get(0).getPlotText();
     public KmdbResponseDTO fetchKmdb(String title, String director) {
         String uri = KMDB_URL +
-                "&title=" + title +
-                "&director=" + director +
+                "&title=" + enc(title) +
+                "&director=" + enc(director) +
                 "&ServiceKey=" + kmdbKey;
 
         HttpRequest res = HttpRequest.newBuilder(toUri(uri))
@@ -121,5 +122,9 @@ public class MovieClient {
 
     private URI toUri(String url) {
         return URI.create(url);
+    }
+
+    private static String enc(String s) {
+        return URLEncoder.encode(s, StandardCharsets.UTF_8); // 공백은 + 로, 한글/콜론 등 안전하게
     }
 }

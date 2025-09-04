@@ -8,5 +8,16 @@ public class Genre {
         this.genreName = genreName;
     }
 
+    public Genre(Long genreNo, String genreName) {
+        this.genreNo = genreNo;
+        this.genreName = genreName;
+    }
 
+    public Long getGenreNo() {
+        return genreNo;
+    }
+
+    public String getGenreName() {
+        return genreName;
+    }
 }

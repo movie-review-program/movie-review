@@ -1,15 +1,17 @@
 package org.example.model.service;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 
 import org.example.model.dao.MovieDao;
 import org.example.model.dao.MovieDaoImpl;
-import org.example.exception.NotFoundException;
 import org.example.infra.movie.KmdbResponseDTO;
 import org.example.infra.movie.KobisDailyResponseDTO;
 import org.example.infra.movie.KobisDetailResponseDTO;
 import org.example.infra.movie.MovieClient;
+import org.example.model.dto.Genre;
+import org.example.model.dto.Movie;
 
 public class MovieServiceImpl implements MovieService {
     private static final MovieService instance = new MovieServiceImpl();
@@ -23,7 +25,7 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public void fetchMovieWithGenre(String targetDate) {
+    public void fetchMovieWithGenre(String targetDate) throws SQLException {
         KobisDailyResponseDTO kobisDaily = client.fetchKobisDaily(targetDate);
         String movieCd = findFirstMovieCdByKobisDaily(kobisDaily);
         String audiCnt = findFirstAudiCntByKobisDaily(kobisDaily);
@@ -31,13 +33,22 @@ public class MovieServiceImpl implements MovieService {
         KobisDetailResponseDTO kobisDetail = client.fetchKobisDetail(movieCd);
         String movieName = findMovieNameByKobisDetail(kobisDetail);
         LocalDate openDate = findOpenDateByKobisDetail(kobisDetail);
-        List<String> genres = findGenresByKobisDetail(kobisDetail);
+        List<Genre> genres = findGenresByKobisDetail(kobisDetail);
         String director = findDirectorByKobisDetail(kobisDetail);
 
         KmdbResponseDTO kmdb = client.fetchKmdb(movieName, director);
         String plot = findPlot(kmdb);
 
-        int result = dao.insertMovie(movieName, director, audiCnt, openDate, genres, plot);
+        int result = dao.insertMovie(
+                new Movie(
+                        movieName,
+                        director,
+                        plot,
+                        Integer.parseInt(audiCnt),
+                        openDate,
+                        genres));
+
+        if (result == 0) throw new SQLException("영화 등록에 실패하였습니다");
     }
 
     private String findFirstAudiCntByKobisDaily(KobisDailyResponseDTO dto) {
@@ -70,7 +81,7 @@ public class MovieServiceImpl implements MovieService {
                 .getOpenDate();
     }
 
-    private List<String> findGenresByKobisDetail(KobisDetailResponseDTO dto) {
+    private List<Genre> findGenresByKobisDetail(KobisDetailResponseDTO dto) {
         return dto
                 .getMovieInfoResult()
                 .getMovieInfo()
