@@ -8,50 +8,64 @@ public class Movie {
     private int movieNo;
     private String movieName;
     private String director;
+    private LocalDate openDate;
     private String plot;
     private int audiCnt;
-    private LocalDate openDate;
     private List<Genre> genreDTOS;
-    //추가
     private double ratings;
     private int reviewCnt;
 
     private Movie() {
     }
 
-    public Movie(String movieName, String director, String plot, int audiCnt, LocalDate openDate,
+    /*
+     * 데이터 등록
+     * */
+    public Movie(String movieName, String director, LocalDate openDate, String plot, int audiCnt,
             List<Genre> genreDTOS) {
         super();
         this.movieName = movieName;
         this.director = director;
+        this.openDate = openDate;
         this.plot = plot;
         this.audiCnt = audiCnt;
-        this.openDate = openDate;
         this.genreDTOS = genreDTOS;
     }
 
-    public Movie(int movieNo, String movieName, String director, String plot, int audiCnt, LocalDate openDate,
+    public Movie(int movieNo, String movieName, String director, LocalDate openDate, String plot, int audiCnt,
+            List<Genre> genreDTOS) {
+        super();
+        this.movieNo = movieNo;
+        this.movieName = movieName;
+        this.director = director;
+        this.openDate = openDate;
+        this.plot = plot;
+        this.audiCnt = audiCnt;
+        this.genreDTOS = genreDTOS;
+    }
+
+    public Movie(int movieNo, String movieName, LocalDate openDate, String director, String plot, int audiCnt,
             List<Genre> genreDTOS, double ratings) {
         super();
         this.movieNo = movieNo;
         this.movieName = movieName;
         this.director = director;
+        this.openDate = openDate;
         this.plot = plot;
         this.audiCnt = audiCnt;
-        this.openDate = openDate;
         this.genreDTOS = genreDTOS;
         this.ratings = ratings;
     }
 
-    public Movie(int movieNo, String movieName, String director, String plot, int audiCnt, LocalDate openDate,
+    public Movie(int movieNo, String movieName, String director, LocalDate openDate, String plot, int audiCnt,
             List<Genre> genreDTOS, double ratings, int reviewCnt) {
         super();
         this.movieNo = movieNo;
         this.movieName = movieName;
         this.director = director;
+        this.openDate = openDate;
         this.plot = plot;
         this.audiCnt = audiCnt;
-        this.openDate = openDate;
         this.genreDTOS = genreDTOS;
         this.ratings = ratings;
         this.reviewCnt = reviewCnt;
@@ -83,5 +97,21 @@ public class Movie {
 
     public List<Genre> getGenreDTOS() {
         return genreDTOS;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Movie{");
+        sb.append("movieNo=").append(movieNo);
+        sb.append(", movieName='").append(movieName).append('\'');
+        sb.append(", director='").append(director).append('\'');
+        sb.append(", openDate=").append(openDate);
+        sb.append(", plot='").append(plot).append('\'');
+        sb.append(", audiCnt=").append(audiCnt);
+        sb.append(", genreDTOS=").append(genreDTOS);
+        sb.append(", ratings=").append(ratings);
+        sb.append(", reviewCnt=").append(reviewCnt);
+        sb.append('}');
+        return sb.toString();
     }
 }

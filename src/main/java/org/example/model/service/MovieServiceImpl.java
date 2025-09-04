@@ -10,6 +10,8 @@ import org.example.infra.movie.KmdbResponseDTO;
 import org.example.infra.movie.KobisDailyResponseDTO;
 import org.example.infra.movie.KobisDetailResponseDTO;
 import org.example.infra.movie.MovieClient;
+import org.example.model.dao.ReviewDao;
+import org.example.model.dao.ReviewDaoImpl;
 import org.example.model.dto.Genre;
 import org.example.model.dto.Movie;
 
@@ -43,12 +45,37 @@ public class MovieServiceImpl implements MovieService {
                 new Movie(
                         movieName,
                         director,
+                        openDate,
                         plot,
                         Integer.parseInt(audiCnt),
-                        openDate,
                         genres));
 
         if (result == 0) throw new SQLException("영화 등록에 실패하였습니다");
+    }
+
+    @Override
+    public Movie getMovieByMovieName(String movieName) throws SQLException {
+        Movie movie = dao.selectMovieName(movieName.trim());
+        if(movie == null)
+            throw new SQLException("맞는 이름을 가진 영화가 존재하지 않습니다.");
+        return dao.selectMovieName(movieName.trim());
+    }
+
+    @Override
+    public List<Movie> getMovieBasicInfo(int page) throws SQLException {
+        List<Movie> movies = dao.selectMovieBasicPage(page, 5);
+        if (movies.size() != 5)
+            throw new SQLException("페이징된 정보 5개를 가져오지 못했습니다.");
+        return movies;
+    }
+
+    @Override
+    public Movie getMovieDetailInfo(int movieNo) throws SQLException {
+        Movie movie = dao.selectMovieDetail(movieNo);
+        if (movie == null) {
+            throw new SQLException("NO에 맞는 영화가 존재하지 않습니다");
+        }
+        return movie;
     }
 
     private String findFirstAudiCntByKobisDaily(KobisDailyResponseDTO dto) {
