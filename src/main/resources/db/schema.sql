@@ -3,6 +3,7 @@ CREATE TABLE users
     user_no   int PRIMARY KEY AUTO_INCREMENT,
     email     varchar(20) NOT NULL UNIQUE,
     password  varchar(20) NOT NULL,
+    name  varchar(20)  NOT NULL,
     join_date datetime    NOT NULL DEFAULT now()
 );
 
