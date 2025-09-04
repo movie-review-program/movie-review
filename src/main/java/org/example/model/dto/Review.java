@@ -1,33 +1,33 @@
 package org.example.model.dto;
 
 public class Review {
-	private int reviewNo;
+	private long reviewNo;
 	private int rating;
 	private String content;
 	private String regDate;
-	private int movieNo;
-	private int userNo;	// writer 작성자
+	private long movieNo;
+	private long userNo;	// writer 작성자
 	
 	public Review() {}
 
-	public Review(int rating, String content, int movieNo, int userNo) {
+	public Review(int rating, String content, long movieNo, long userNo) {
 		this.rating = rating;
 		this.content = content;
 		this.movieNo = movieNo;
 		this.userNo = userNo;
 	}
 
-	public Review(int reviewNo, int rating, String content, String regDate, int movieNo, int userNo) {
+	public Review(long reviewNo, int rating, String content, String regDate, long movieNo, long userNo) {
 		this(rating, content, movieNo, userNo);
 		this.reviewNo = reviewNo;
 		this.regDate = regDate;
 	}
 
-	public int getReviewNo() {
+	public long getReviewNo() {
 		return reviewNo;
 	}
 
-	public void setReviewNo(int reviewNo) {
+	public void setReviewNo(long reviewNo) {
 		this.reviewNo = reviewNo;
 	}
 
@@ -55,19 +55,19 @@ public class Review {
 		this.regDate = regDate;
 	}
 
-	public int getMovieNo() {
+	public long getMovieNo() {
 		return movieNo;
 	}
 
-	public void setMovieNo(int movieNo) {
+	public void setMovieNo(long movieNo) {
 		this.movieNo = movieNo;
 	}
 
-	public int getUserNo() {
+	public long getUserNo() {
 		return userNo;
 	}
 	
-	public void setUserNo(int userNo) {
+	public void setUserNo(long userNo) {
 		this.userNo = userNo;
 	}
 
