@@ -23,6 +23,35 @@ public class ReviewDaoImpl implements ReviewDao {
 	}
 
 	@Override
+	public Review findReviewByReviewNo(int reviewNo) throws Exception {
+		Review review = null;
+		String sql = "select * from reviews where review_no = ?";
+		
+		try (Connection con = dbManager.getConnection();
+				PreparedStatement ps = con.prepareStatement(sql);) {
+			ps.setInt(1, reviewNo);
+			
+			try (ResultSet rs = ps.executeQuery();) {
+				if (rs.next()) {
+					review = new Review(
+							rs.getInt(1), 
+							rs.getInt(2), 
+							rs.getString(3), 
+							rs.getString(4), 
+							rs.getInt(5), 
+							rs.getInt(6));
+				}
+			}
+		} catch (SQLException e) {
+			//e.printStackTrace();
+			// TODO 사용자정의 예외 처리
+			//throw new MyException("DB 문제");
+		}
+		
+		return review;
+	}
+	
+	@Override
 	public List<Review> findReviewsByMovieNo(int movieNo) throws Exception {
 		List<Review> list = new ArrayList<>();
 		String sql = "select * from reviews where movie_no = ?";

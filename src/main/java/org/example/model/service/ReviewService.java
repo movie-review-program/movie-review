@@ -7,6 +7,11 @@ import org.example.model.dto.Review;
 
 public interface ReviewService {
 	/**
+	 * 리뷰 번호를 이용해 리뷰 조회
+	 */
+	Review findReviewByReviewNo(int reviewNo) throws Exception;
+	
+	/**
 	 * 해당 영화의 모든 리뷰를 조회
 	 */
 	List<Review> findReviewsByMovieNo(int movieNo) throws Exception;

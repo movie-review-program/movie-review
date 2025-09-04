@@ -15,6 +15,16 @@ public class ReviewServiceImpl implements ReviewService {
 	public static ReviewService getInstance() {
 		return instance;
 	}
+
+	@Override
+	public Review findReviewByReviewNo(int reviewNo) throws Exception {
+		Review review = reviewDao.findReviewByReviewNo(reviewNo);
+		
+		if (review == null)
+			throw new Exception("해당 리뷰가 존재하지 않습니다.");
+		
+		return review;
+	}
 	
 	@Override
 	public List<Review> findReviewsByMovieNo(int movieNo) throws Exception {
