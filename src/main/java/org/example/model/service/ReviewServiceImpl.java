@@ -37,8 +37,8 @@ public class ReviewServiceImpl implements ReviewService {
 	}
 
 	@Override
-	public List<Review> findReviewsByLike(int likeNo) throws Exception {
-		List<Review> list = reviewDao.findReviewsByLike(likeNo);
+	public List<Review> findReviewsByLike(int userNo) throws Exception {
+		List<Review> list = reviewDao.findReviewsByLike(userNo);
 		
 		if (list.isEmpty())
 			throw new Exception("좋아요 한 리뷰가 없습니다.");

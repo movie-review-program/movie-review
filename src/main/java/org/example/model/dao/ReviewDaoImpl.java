@@ -129,6 +129,50 @@ public class ReviewDaoImpl implements ReviewDao {
 		
 		return list;
 	}
+	
+	@Override
+	public int getReviewCount(int movieNo) throws Exception {
+		int count = 0;
+		String sql = "select count(*) from reviews where movie_no = ?";
+		
+		try (Connection con = dbManager.getConnection();
+				PreparedStatement ps = con.prepareStatement(sql);) {
+			ps.setInt(1, movieNo);
+			
+			try (ResultSet rs = ps.executeQuery();) {
+				if (rs.next()) {
+					count = rs.getInt(1);
+				}
+			}
+		} catch (SQLException e) {
+			//e.printStackTrace();
+			// TODO 사용자정의 예외 처리
+		}
+		
+		return count;
+	}
+	
+	@Override
+	public double getAverageRating(int movieNo) throws Exception {
+		double avg = 0;
+		String sql = "select avg(rating) from reviews where movie_no = ?"; 
+		
+		try (Connection con = dbManager.getConnection();
+				PreparedStatement ps = con.prepareStatement(sql);) {
+			ps.setInt(1, movieNo);
+			
+			try (ResultSet rs = ps.executeQuery();) {
+				if (rs.next()) {
+					avg = rs.getInt(1);
+				}
+			}
+		} catch (SQLException e) {
+			//e.printStackTrace();
+			// TODO 사용자정의 예외 처리
+		}
+		
+		return avg;
+	}
 
 	@Override
 	public int insertReview(Review review) {

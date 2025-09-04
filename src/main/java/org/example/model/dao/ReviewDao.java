@@ -10,7 +10,7 @@ public interface ReviewDao {
 	 * 영화의 리뷰를 조회
 	 * @param movieNo
 	 * @return
-	 * @throws NotFoundException
+	 * @throws Exception
 	 */
 	List<Review> findReviewsByMovieNo(int movieNo) throws Exception;
 	
@@ -18,7 +18,7 @@ public interface ReviewDao {
 	 * 현재 사용자(유저)가 작성한 리뷰 조회
 	 * @param userNo
 	 * @return
-	 * @throws NotFoundException
+	 * @throws Exception
 	 */
 	List<Review> findReviewsByUserNo(int userNo) throws Exception;
 	
@@ -27,12 +27,28 @@ public interface ReviewDao {
 	 * 유저번호를 조건으로 likes 테이블에서 리뷰번호를 가져온 후, 리뷰번호에 해당하는 리뷰들을 리턴한다.
 	 * @param likeNo
 	 * @return
-	 * @throws NotFoundException
+	 * @throws Exception
 	 */
-	List<Review> findReviewsByLike(int likeNo) throws Exception;
+	List<Review> findReviewsByLike(int userNo) throws Exception;
 	
 	/**
-	 * 리뷰 작성
+	 * 해당 영화의 리뷰 개수를 조회
+	 * @param movieNo
+	 * @return
+	 * @throws Exception
+	 */
+	int getReviewCount(int movieNo) throws Exception;
+	
+	/**
+	 * 해당 영화의 평균 별점(평점)을 조회
+	 * @param movieNo
+	 * @return
+	 * @throws Exception
+	 */
+	double getAverageRating(int movieNo) throws Exception;
+	
+	/**
+	 * 리뷰 등록
 	 * @param review
 	 * @return
 	 */
