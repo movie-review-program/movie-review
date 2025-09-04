@@ -1,4 +1,4 @@
-package org.example.controller;
+package org.example.controller;  
 
 import java.sql.SQLException;
 
@@ -11,7 +11,6 @@ public class UserController {
     private UserService userService = new UserServiceImpl();
     private SessionManagerImpl sessionManager = SessionManagerImpl.getInstance();
 
-  
     public User handleSignup(String email, String password, String name) {
         try {
             User loginUser = userService.registerAndLogin(new User(email, password, name));
@@ -26,7 +25,6 @@ public class UserController {
         }
     }
 
-   
     public User handleLogin(String email, String password) {
         try {
             User user = userService.login(email, password);
@@ -41,7 +39,15 @@ public class UserController {
         }
     }
 
-  
+    public User handleGetUserInfo(int userNo) {
+        try {
+            return userService.getUserByUserNo(userNo);
+        } catch (Exception e) {
+            System.err.println("회원 조회 실패: " + e.getMessage());
+            return null;
+        }
+    }
+
     public String handleLogout() {
         try {
             if (!sessionManager.isLoggedIn()) {
@@ -56,7 +62,6 @@ public class UserController {
         }
     }
 
-  
     public boolean isLoggedIn() {
         return sessionManager.isLoggedIn();
     }

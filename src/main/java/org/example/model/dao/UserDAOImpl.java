@@ -18,8 +18,9 @@ public class UserDAOImpl implements UserDAO {
             "INSERT INTO users (email, password, name) VALUES (?, ?, ?)";
     private static final String SELECT_USER_SQL =
             "SELECT user_no, email, password, name, join_date FROM users WHERE email = ? AND password = ?";
+    private static final String SELECT_USER_BY_NO_SQL =
+            "SELECT user_no, email, password, name, join_date FROM users WHERE user_no = ?";
 
-   
     @Override
     public boolean isEmailDuplicate(String email) throws SQLException {
         try (Connection conn = dbManager.getConnection();
@@ -30,7 +31,6 @@ public class UserDAOImpl implements UserDAO {
         }
     }
 
-   
     @Override
     public boolean registerUser(User user) throws SQLException {
         try (Connection conn = dbManager.getConnection();
@@ -42,13 +42,32 @@ public class UserDAOImpl implements UserDAO {
         }
     }
 
- 
     @Override
-    public User login(String email, String password) throws SQLException {
+    public User selectUserByUseremailAndPassword(String email, String password) throws SQLException {
         try (Connection conn = dbManager.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(SELECT_USER_SQL)) {
             pstmt.setString(1, email);
             pstmt.setString(2, password);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                User user = new User();
+                user.setUserNo(rs.getInt("user_no"));
+                user.setEmail(rs.getString("email"));
+                user.setPassword(rs.getString("password"));
+                user.setName(rs.getString("name"));
+                user.setJoinDate(rs.getTimestamp("join_date").toLocalDateTime());
+                return user;
+            }
+            return null;
+        }
+    }
+
+    @Override
+    public User selectUserByUserNo(int userNo) throws SQLException {
+        try (Connection conn = dbManager.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(SELECT_USER_BY_NO_SQL)) {
+            pstmt.setInt(1, userNo);
             ResultSet rs = pstmt.executeQuery();
 
             if (rs.next()) {
