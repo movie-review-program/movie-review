@@ -15,6 +15,16 @@ public class ReviewServiceImpl implements ReviewService {
 	public static ReviewService getInstance() {
 		return instance;
 	}
+
+	@Override
+	public Review findReviewByReviewNo(int reviewNo) throws Exception {
+		Review review = reviewDao.findReviewByReviewNo(reviewNo);
+		
+		if (review == null)
+			throw new Exception("해당 리뷰가 존재하지 않습니다.");
+		
+		return review;
+	}
 	
 	@Override
 	public List<Review> findReviewsByMovieNo(int movieNo) throws Exception {
@@ -68,5 +78,21 @@ public class ReviewServiceImpl implements ReviewService {
 		
 		if (result == 0)
 			throw new Exception("리뷰가 삭제되지 않았습니다.");
+	}
+
+	@Override
+	public void insertLike(int userNo, int reviewNo) throws Exception {
+		int result = reviewDao.insertLike(userNo, reviewNo);
+		
+		if (result == 0)
+			throw new Exception("해당 리뷰에 좋아요 하기를 실패했습니다.");
+	}
+
+	@Override
+	public void deleteLike(int userNo, int reviewNo) throws Exception {
+		int result = reviewDao.deleteLike(userNo, reviewNo);
+		
+		if (result == 0)
+			throw new Exception("해당 리뷰의 좋아요 취소를 실패했습니다.");
 	}
 }

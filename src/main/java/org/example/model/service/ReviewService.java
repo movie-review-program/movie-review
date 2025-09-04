@@ -7,6 +7,11 @@ import org.example.model.dto.Review;
 
 public interface ReviewService {
 	/**
+	 * 리뷰 번호를 이용해 리뷰 조회
+	 */
+	Review findReviewByReviewNo(int reviewNo) throws Exception;
+	
+	/**
 	 * 해당 영화의 모든 리뷰를 조회
 	 */
 	List<Review> findReviewsByMovieNo(int movieNo) throws Exception;
@@ -35,4 +40,14 @@ public interface ReviewService {
 	 * 현재 사용자(유저)가 선택한 리뷰 삭제
 	 */
 	void deleteReview(int reviewNo) throws Exception;
+	
+	/**
+	 * 리뷰에 좋아요 등록
+	 */
+	void insertLike(int userNo, int reviewNo) throws Exception;
+	
+	/**
+	 * 좋아요 삭제(취소)
+	 */
+	void deleteLike(int userNo, int reviewNo) throws Exception;
 }
