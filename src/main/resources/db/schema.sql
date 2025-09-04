@@ -55,15 +55,19 @@ CREATE TABLE follows
     follow_no    int PRIMARY KEY AUTO_INCREMENT,
     follower_no  int NOT NULL,
     following_no int NOT NULL,
-    UNIQUE KEY (follower_no, following_no)
+    UNIQUE KEY (follower_no, following_no),
+	FOREIGN KEY (follower_no) REFERENCES users(user_no) ON DELETE CASCADE,
+    FOREIGN KEY (following_no) REFERENCES users(user_no) ON DELETE CASCADE
 );
 
 
 CREATE TABLE likes
 (
     like_no   int PRIMARY KEY AUTO_INCREMENT,
-    review_no int NOT NULL,
     user_no   int NOT NULL,
-    UNIQUE KEY (review_no, user_no)
+	review_no int NOT NULL,
+    UNIQUE KEY (user_no, review_no),
+	FOREIGN KEY (user_no) REFERENCES users(user_no) ON DELETE CASCADE,
+    FOREIGN KEY (review_no) REFERENCES reviews(review_no) ON DELETE CASCADE
 );
 
