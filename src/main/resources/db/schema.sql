@@ -6,14 +6,15 @@ CREATE TABLE users
     join_date datetime    NOT NULL DEFAULT now()
 );
 
-
+# moive_cd 번호 추가 예정(unique 확인을 위한 과정)
+# 현재 movie_name 으로 잠시 대체
 CREATE TABLE movies
 (
     movie_no   int PRIMARY KEY AUTO_INCREMENT,
-    movie_name varchar(20)  NOT NULL,
+    movie_name varchar(20)  NOT NULL UNIQUE ,
     director   varchar(20)  NOT NULL,
     open_date  date         NOT NULL,
-    plot       varchar(255) NOT NULL,
+    plot       varchar(1000) NOT NULL,
     audi_cnt   int          NOT NULL
 );
 

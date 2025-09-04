@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.example.model.dto.Genre;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -50,10 +52,12 @@ public class KobisDetailResponseDTO {
             return openDate;
         }
 
-        public List<String> getGenres() {
-            List<String> genreToStringList = new ArrayList<>();
+        //TODO: 리팩토링 진행 필요
+        public List<org.example.model.dto.Genre> getGenres() {
+            List<org.example.model.dto.Genre> genreToStringList = new ArrayList<>();
             for (Genre g : genres) {
-                genreToStringList.add(g.getGenreName());
+                org.example.model.dto.Genre genre = new org.example.model.dto.Genre(g.genreName);
+                genreToStringList.add(genre);
             }
             return genreToStringList;
         }
