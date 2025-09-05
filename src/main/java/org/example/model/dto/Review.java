@@ -22,7 +22,15 @@ public class Review {
 		this.reviewNo = reviewNo;
 		this.regDate = regDate;
 	}
-
+	
+	/**
+	 * 리뷰 요약 보기를 위한 getter
+	 * 리뷰 글 내용의 최대 20자를 가져온다.
+	 */
+	public String getContentPreviw() {
+		return this.content.substring(0,  Math.min(20, this.content.length()));
+	}
+	
 	public int getReviewNo() {
 		return reviewNo;
 	}
