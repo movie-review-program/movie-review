@@ -25,15 +25,7 @@ public class TestViewMJ {
 	public static void tempMenu() {
 		// 리뷰 상세 보기 (영화정보, 유저정보 둘 다 필요)
 		ReviewController.findReviewByReviewNo(1, 1);
-		/*
-		// 이러면 controller 의 메소드들이 리턴값이 있어야 함 -> X
-		Review review = ReviewController.findReviewByReviewNo(reviewNo);
-		Movie movie = movieService.findMovieByMovieNo(review.getMovieNo());
-		User user = userService.findUserByUserNo(userNo);
-		printReviewFromUser(user.getUserName(), review, movie);
-		 */
 		
-		// 리뷰 요약 보기 (영화정보, 유저정보 반영 X)
 		// 내 리뷰 보기
 		ReviewController.getReviewsPreview(ReviewContext.USER, 1, 1);
 		
@@ -45,8 +37,6 @@ public class TestViewMJ {
 		
 		// 좋아요 리뷰 보기
 		ReviewController.getReviewsPreview(ReviewContext.LIKE, 1, 1);
-		
-		
 		
 		// 리뷰 등록
 		//inputReview(3,2);
@@ -154,24 +144,6 @@ public class TestViewMJ {
         System.out.println("└─────────────────────────────────────────────────┘");
 		
 	}
-	
-	public static void uploadReview(long userNo) {
-		System.out.println("----- 리뷰 작성 -----");
-		System.out.print("리뷰를 작성할 영화를 입력하세요: ");
-		String title = sc.nextLine();
-//		MovieController.findMovieByTitle(userNo, title);
-	}
-	
-	///////////////// End View ////////////////////
-	public static void printMovieInfo(long userNo, Movie movie) {
-		System.out.print("별점: ");
-		int rating = Integer.parseInt(sc.nextLine());
-		System.out.println("리뷰: ");
-		String content = sc.nextLine();
-		
-//		Review review = new Review(rating, content, movie.getMovieNo(), userNo);
-	}
-
 	
 	public void testDao() {
 		try {
