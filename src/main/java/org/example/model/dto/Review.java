@@ -7,20 +7,28 @@ public class Review {
 	private String regDate;
 	private int movieNo;
 	private int userNo;	// writer 작성자
-	
+	private int likeCnt;	// 좋아요 수
+
 	public Review() {}
 
+	/**
+	 * 리뷰 작성 시 호출하는 생성자 (좋아요 수 미포함)
+	 */
 	public Review(int rating, String content, int movieNo, int userNo) {
 		this.rating = rating;
 		this.content = content;
 		this.movieNo = movieNo;
 		this.userNo = userNo;
 	}
-
-	public Review(int reviewNo, int rating, String content, String regDate, int movieNo, int userNo) {
+	
+	/**
+	 * 리뷰 조회 시 호출하는 생성자 (좋아요 수 포함)
+	 */
+	public Review(int reviewNo, int rating, String content, String regDate, int movieNo, int userNo, int likeCnt) {
 		this(rating, content, movieNo, userNo);
 		this.reviewNo = reviewNo;
 		this.regDate = regDate;
+		this.likeCnt = likeCnt;
 	}
 	
 	/**
@@ -77,6 +85,14 @@ public class Review {
 	
 	public void setUserNo(int userNo) {
 		this.userNo = userNo;
+	}	
+	
+	public int getLikeCnt() {
+		return likeCnt;
+	}
+	
+	public void setLikeCnt(int likeCnt) {
+		this.likeCnt = likeCnt;
 	}
 
 	@Override

@@ -15,13 +15,15 @@ public class TestViewMJ {
 
 	public static void main(String[] args) {
 		new TestViewMJ().testDao();
+		
 		tempMenu();
 	}
 	
 	////////////////////// 임시 Menu View //////////////////////////////
 	public static void tempMenu() {
 		// 리뷰 상세 보기 (영화정보, 유저정보 둘 다 필요)
-		ReviewController.findReviewByReviewNo(1, 3);
+		ReviewController.findReviewByReviewNo(1, 1);
+		
 		
 		/*
 		// 이러면 controller 의 메소드들이 리턴값이 있어야 함 -> X
@@ -35,7 +37,8 @@ public class TestViewMJ {
 		// 내가 쓴 리뷰 보기
 		ReviewController.findReviewsByFollow(2, 1);
 		
-		inputReview(3,2);
+		// 리뷰 등록
+		//inputReview(3,2);
 	}
 	
 	
@@ -48,7 +51,7 @@ public class TestViewMJ {
         	if (review != null)
         	System.out.printf("│  📍 %s님의 리뷰 (%s)%24s│%n", "user.getName()", "(2시간 전)", "");
             System.out.printf("│  🎬 %s %s (%d.0)%20s│%n", "movie.getMovieName()", "★★★★★", review.getRating(), "");
-            System.out.printf("│  👍 %d  💭 \"%s\"%25s│%n", 0, review.getContentPreviw(), "");
+            System.out.printf("│  👍 %d  💭 \"%s\"%25s│%n", review.getLikeCnt(), review.getContentPreviw(), "");
             System.out.println("│  ────────────────────────────────────────────   │");
 	        
         }
@@ -113,9 +116,9 @@ public class TestViewMJ {
         System.out.println("│                                             	  │");
         System.out.printf("│  🎬 영화: %s (%d)%23s│%n", movie.getMovieName(), movie.getOpenDate(), "");
         System.out.printf("│  ⭐ 별점: ★★★★★ (%d.0/5.0)%24s│%n", review.getRating(), "");
-        System.out.printf("│  👍 좋아요: %d%34s│%n", 2025, "");
+        System.out.printf("│  👍 좋아요: %d%34s│%n", review.getLikeCnt(), "");
         System.out.println("│                                            	  │");
-        System.out.println("│  📝 리뷰 내용:                                 	  │");
+        System.out.println("│  📝 리뷰 내용:                   여기          	  │");
         System.out.println("│  ┌─────────────────────────────────────────┐    │");
         int limit = 30;
         for (int i = 0; i < review.getContent().length(); i+=limit) {
@@ -191,6 +194,9 @@ public class TestViewMJ {
 			
 			System.out.println("----- 유저의 리뷰 조회 -----");
 			System.out.println(rd.selectReviewsPage("user", 1, 1, 3));
+			
+			System.out.println("----- 좋아요 개수 -----");
+			System.out.println(rd.getLikeCount(1));
 			
 			
 		} catch (Exception e) {
