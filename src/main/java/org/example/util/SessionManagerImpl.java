@@ -2,11 +2,14 @@ package org.example.util;
 
 import org.example.model.dto.User;
 
-
+/**
+ * SessionManagerImpl
+ * - 애플리케이션에서 현재 로그인한 사용자 정보를 관리하는 싱글턴 클래스
+ */
 public class SessionManagerImpl implements SessionManager {
-    
-    private static User currentUser = null;
-    private static final SessionManagerImpl instance = new SessionManagerImpl();
+
+    private static SessionManagerImpl instance = new SessionManagerImpl();
+    private User loggedInUser; // 현재 로그인한 사용자
 
     private SessionManagerImpl() {}
 
@@ -15,27 +18,22 @@ public class SessionManagerImpl implements SessionManager {
     }
 
     @Override
-    public void login(User user) {
-        currentUser = user;
+    public void setLoggedInUser(User user) {
+        this.loggedInUser = user;
+    }
+
+    @Override
+    public User getLoggedInUser() {
+        return this.loggedInUser;
     }
 
     @Override
     public void logout() {
-        currentUser = null;
-    }
-
-    @Override
-    public User getCurrentUser() {
-        return currentUser;
-    }
-
-    @Override
-    public boolean isLoggedIn() {
-        return currentUser != null;
+        this.loggedInUser = null;
     }
 
     @Override
     public String getCurrentUserName() {
-        return currentUser != null ? currentUser.getName() : "비회원";
+        return loggedInUser != null ? loggedInUser.getName() : "비회원";
     }
 }
