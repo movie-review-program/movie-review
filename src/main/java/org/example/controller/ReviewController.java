@@ -1,16 +1,24 @@
 package org.example.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.example.common.ReviewContext;
 import org.example.model.dto.Movie;
 import org.example.model.dto.Review;
+import org.example.model.dto.User;
+import org.example.model.service.MovieService;
+import org.example.model.service.MovieServiceImpl;
 import org.example.model.service.ReviewService;
 import org.example.model.service.ReviewServiceImpl;
+import org.example.model.service.UserService;
+import org.example.model.service.UserServiceImpl;
 import org.example.view.TestViewMJ;
 
 public class ReviewController {
 	private static ReviewService reviewService = ReviewServiceImpl.getInstance();
+	private static MovieService movieService = MovieServiceImpl.getInstance();
+	private static UserService userService = new UserServiceImpl();
 	
 	/**
 	 * 리뷰 상세 보기 선택 시 호출
@@ -21,8 +29,8 @@ public class ReviewController {
 	public static void findReviewByReviewNo(int userNo, int reviewNo) {
 		try {
 			Review review = reviewService.getReviewByReviewNo(reviewNo);
-			Movie movie = new Movie("테스트영화제목", "테스트감독", null, null, 100, null);
-			String userName = "유저1";
+			Movie movie = movieService.getMovieDetailInfo(review.getMovieNo());
+			String userName = userService.getUserByUserNo(userNo).getName();
 			
 			TestViewMJ.printReview(userName, review, movie);
 		} catch (Exception e) {
@@ -51,8 +59,26 @@ public class ReviewController {
 	 */
 	public static void getReviewsPreview(ReviewContext type, int no, int page) {
 		try {
-			List<Review> list = reviewService.getReviewsPage(type, no, page);
-			TestViewMJ.printReviewsPreview(type, list);
+			List<Review> reviews = reviewService.getReviewsPage(type, no, page);
+			
+			// 리뷰에 있는 movieNo에 맞는 영화들 조회 및 userNo에 맞는 유저 조회
+			List<Movie> movies = new ArrayList<>();
+			List<User> users = new ArrayList<>();
+			// 유저, 영화, 리뷰를 담는 이중 리스트
+			List<List<Object>> infos = new ArrayList<List<Object>>();
+			
+			for (Review review : reviews) {
+				Movie movie = movieService.getMovieDetailInfo(review.getMovieNo());
+				User user = userService.getUserByUserNo(review.getUserNo());
+	            
+	            List<Object> info = new ArrayList<Object>();
+	            info.add(user);
+	            info.add(movie);
+	            info.add(review);
+	            infos.add(info);
+	        }
+	        
+			TestViewMJ.printReviewsPreview(type, infos);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}

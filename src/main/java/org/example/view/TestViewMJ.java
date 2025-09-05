@@ -4,11 +4,12 @@ import java.util.List;
 import java.util.Scanner;
 
 import org.example.common.ReviewContext;
+import org.example.model.dto.Movie;
+import org.example.model.dto.Review;
+import org.example.model.dto.User;
 import org.example.controller.ReviewController;
 import org.example.model.dao.ReviewDao;
 import org.example.model.dao.ReviewDaoImpl;
-import org.example.model.dto.Movie;
-import org.example.model.dto.Review;
 
 public class TestViewMJ {
 	ReviewDao rd = ReviewDaoImpl.getInstance();
@@ -52,19 +53,22 @@ public class TestViewMJ {
 	}
 	
 	
-	public static void printReviewsPreview(ReviewContext type, List<Review> reviewList) {
+	public static void printReviewsPreview(ReviewContext type, List<List<Object>> infos) {
 		System.out.println("┌─────────────────────────────────────────────────┐");
 		printReviewsPreviewTitle(type);
         System.out.println("├─────────────────────────────────────────────────┤");
 
-        for (Review review : reviewList) {
+        for (List<Object> info : infos) {
+        	User user = (User) info.get(0);
+        	Movie movie = (Movie) info.get(1);
+        	Review review = (Review) info.get(2);
+        	
         	if (type != ReviewContext.USER)
-        	System.out.printf("│  📍 %s님의 리뷰 (%s)%24s│%n", "user.getName()", "(2시간 전)", "");
+        		System.out.printf("│  📍 %s님의 리뷰 %24s│%n", user.getName(), "");
         	if (type != ReviewContext.MOVIE)
-        		System.out.printf("│  🎬 %s %s (%d.0)%20s│%n", "movie.getMovieName()", "★★★★★", review.getRating(), "");
+        		System.out.printf("│  🎬 %s %s (%d.0)%20s│%n", movie.getMovieName(), "★★★★★", review.getRating(), "");
             System.out.printf("│  👍 %d  💭 \"%s\"%25s│%n", review.getLikeCnt(), review.getContentPreviw(), "");
             System.out.println("│  ────────────────────────────────────────────   │");
-
         }
 
         System.out.println("├─────────────────────────────────────────────────┤");
@@ -81,8 +85,6 @@ public class TestViewMJ {
 			case LIKE -> System.out.println("│                 👥 좋아요 한 리뷰                	  │");
 			case FOLLOW -> System.out.println("│                👥 팔로워 리뷰 피드                	  │");
 		}
-			
-		
 	}
 	
 	public static void inputReview(int movieNo, int userNo) {
@@ -136,11 +138,11 @@ public class TestViewMJ {
         System.out.printf("│  👤 작성자: %s %33s│%n", username, "");
         System.out.printf("│  📅 작성일: %s%19s│%n", review.getRegDate(), "");
         System.out.println("│                                             	  │");
-        System.out.printf("│  🎬 영화: %s (%d)%23s│%n", movie.getMovieName(), movie.getOpenDate(), "");
+        System.out.printf("│  🎬 영화: %s (%s)%23s│%n", movie.getMovieName(), movie.getOpenDate(), "");
         System.out.printf("│  ⭐ 별점: ★★★★★ (%d.0/5.0)%24s│%n", review.getRating(), "");
         System.out.printf("│  👍 좋아요: %d%34s│%n", review.getLikeCnt(), "");
         System.out.println("│                                            	  │");
-        System.out.println("│  📝 리뷰 내용:                   여기          	  │");
+        System.out.println("│  📝 리뷰 내용:                                	  │");
         System.out.println("│  ┌─────────────────────────────────────────┐    │");
         int limit = 30;
         for (int i = 0; i < review.getContent().length(); i+=limit) {
