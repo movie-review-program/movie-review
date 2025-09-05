@@ -60,9 +60,9 @@ public class ReviewDaoImpl implements ReviewDao {
 		String sql = null;
 		
 		if (type == ReviewContext.MOVIE) 
-			sql = "select * from reviews where user_no = ? order by reg_date desc limit ? offset ?";
-		else if (type == ReviewContext.USER)
 			sql = "select * from reviews where movie_no = ? order by reg_date desc limit ? offset ?";
+		else if (type == ReviewContext.USER)
+			sql = "select * from reviews where user_no = ? order by reg_date desc limit ? offset ?";
 		
 		try (Connection con = dbManager.getConnection();
 				PreparedStatement ps = con.prepareStatement(sql);) {

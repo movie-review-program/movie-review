@@ -34,7 +34,7 @@ public class TestViewMJ {
 		 */
 		
 		// 리뷰 요약 보기 (영화정보, 유저정보 반영 X)
-		// 내가 쓴 리뷰 보기
+		// 내 리뷰 보기
 		ReviewController.getReviewsPreview(ReviewContext.USER, 1, 1);
 		
 		// 영화 리뷰 보기

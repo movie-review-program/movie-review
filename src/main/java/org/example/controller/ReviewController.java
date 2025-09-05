@@ -61,9 +61,6 @@ public class ReviewController {
 		try {
 			List<Review> reviews = reviewService.getReviewsPage(type, no, page);
 			
-			// 리뷰에 있는 movieNo에 맞는 영화들 조회 및 userNo에 맞는 유저 조회
-			List<Movie> movies = new ArrayList<>();
-			List<User> users = new ArrayList<>();
 			// 유저, 영화, 리뷰를 담는 이중 리스트
 			List<List<Object>> infos = new ArrayList<List<Object>>();
 			
@@ -71,6 +68,11 @@ public class ReviewController {
 				Movie movie = movieService.getMovieDetailInfo(review.getMovieNo());
 				User user = userService.getUserByUserNo(review.getUserNo());
 	            
+				System.out.println(review);
+				System.out.println(movie);
+				System.out.println(user);
+				System.out.println();
+				
 	            List<Object> info = new ArrayList<Object>();
 	            info.add(user);
 	            info.add(movie);

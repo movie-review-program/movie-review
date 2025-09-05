@@ -5,8 +5,8 @@ public class Review {
 	private int rating;
 	private String content;
 	private String regDate;
-	private int movieNo;
 	private int userNo;	// writer 작성자
+	private int movieNo;
 	private int likeCnt;	// 좋아요 수
 
 	public Review() {}
@@ -14,7 +14,7 @@ public class Review {
 	/**
 	 * 리뷰 작성 시 호출하는 생성자 (좋아요 수 미포함)
 	 */
-	public Review(int rating, String content, int movieNo, int userNo) {
+	public Review(int rating, String content, int userNo, int movieNo) {
 		this.rating = rating;
 		this.content = content;
 		this.movieNo = movieNo;
@@ -24,8 +24,8 @@ public class Review {
 	/**
 	 * 리뷰 조회 시 호출하는 생성자 (좋아요 수 포함)
 	 */
-	public Review(int reviewNo, int rating, String content, String regDate, int movieNo, int userNo, int likeCnt) {
-		this(rating, content, movieNo, userNo);
+	public Review(int reviewNo, int rating, String content, String regDate, int userNo, int movieNo, int likeCnt) {
+		this(rating, content, userNo, movieNo);
 		this.reviewNo = reviewNo;
 		this.regDate = regDate;
 		this.likeCnt = likeCnt;
