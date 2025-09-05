@@ -20,10 +20,8 @@ public class TestViewMJ {
 	
 	////////////////////// 임시 Menu View //////////////////////////////
 	public static void tempMenu() {
-		// 영화 상세 정보 화면 -> 리뷰 보기 클릭 시
-		
 		// 리뷰 상세 보기 (영화정보, 유저정보 둘 다 필요)
-		ReviewController.findReviewByReviewNo(1, 17);
+		ReviewController.findReviewByReviewNo(1, 3);
 		
 		/*
 		// 이러면 controller 의 메소드들이 리턴값이 있어야 함 -> X
@@ -32,23 +30,25 @@ public class TestViewMJ {
 		User user = userService.findUserByUserNo(userNo);
 		printReviewFromUser(user.getUserName(), review, movie);
 		 */
+		
+		// 리뷰 요약 보기 (영화정보, 유저정보 반영 X)
+		// 내가 쓴 리뷰 보기
+		ReviewController.findReviewsByFollow(2, 1);
 	}
 	
-	/*
+	
 	public static void printReviewsPreview(List<Review> reviewList) {
-		int reviewCnt = 3;
 		System.out.println("┌─────────────────────────────────────────────────┐");
         System.out.println("│              👥 팔로워 리뷰 피드                 │");
         System.out.println("├─────────────────────────────────────────────────┤");
 
         for (Review review : reviewList) {
-	        for (int i = 0; i < reviewCnt; i++) {
-	        	if (review != null)
-	        	System.out.printf("│  📍 %s님의 리뷰 (%s)%24s│%n", user.getName(), "(2시간 전)", "");
-	            System.out.printf("│  🎬 %s %s (%.1f)%20s│%n", movie.getMovieName(), "★★★★★", review.getRating(), "");
-	            System.out.printf("│  👍 %d  💭 \"%s\"%25s│%n", review.getLikeCnt(), review.getContentPreviw(), "");
-	            System.out.println("│  ────────────────────────────────────────────   │");
-	        }
+        	if (review != null)
+        	System.out.printf("│  📍 %s님의 리뷰 (%s)%24s│%n", "user.getName()", "(2시간 전)", "");
+            System.out.printf("│  🎬 %s %s (%d.0)%20s│%n", "movie.getMovieName()", "★★★★★", review.getRating(), "");
+            System.out.printf("│  👍 %d  💭 \"%s\"%25s│%n", review.getLikeCnt(), review.getContentPreviw(), "");
+            System.out.println("│  ────────────────────────────────────────────   │");
+	        
         }
 
         System.out.println("├─────────────────────────────────────────────────┤");
@@ -56,7 +56,7 @@ public class TestViewMJ {
         System.out.println("│  선택하세요: _                                  │");
         System.out.println("└─────────────────────────────────────────────────┘");
  
-	}*/
+	}
 	
 	public static void printReview(String username, Review review, Movie movie) {
 		System.out.println("┌─────────────────────────────────────────────────┐");
