@@ -2,29 +2,20 @@ package org.example.model.service;
 
 import java.util.List;
 
-import org.example.exception.NotFoundException;
 import org.example.model.dto.Review;
 
 public interface ReviewService {
 	/**
 	 * 리뷰 번호를 이용해 리뷰 조회
+	 * (리뷰 상세 보기에서 사용)
 	 */
-	Review findReviewByReviewNo(int reviewNo) throws Exception;
+	Review getReviewByReviewNo(int reviewNo) throws Exception;
 	
 	/**
-	 * 해당 영화의 모든 리뷰를 조회
+	 * 영화, 유저, 좋아요, 팔로우를 통한 리뷰 목록 조회
+	 * (리뷰 요약 보기에서 사용)
 	 */
-	List<Review> findReviewsByMovieNo(int movieNo) throws Exception;
-	
-	/**
-	 * 현재 사용자(유저)가 작성한 모든 리뷰 조회
-	 */
-	List<Review> findReviewsByUserNo(int userNo) throws Exception;
-	
-	/**
-	 * 현재 사용자(유저)가 좋아요 한 모든 리뷰 조회
-	 */
-	List<Review> findReviewsByLike(int userNo) throws Exception;
+	List<Review> getReviewsPage(String entity, int no, int page) throws Exception;
 	
 	/**
 	 * 리뷰 등록

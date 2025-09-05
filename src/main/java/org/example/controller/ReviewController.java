@@ -1,9 +1,7 @@
 package org.example.controller;
 
-import java.time.LocalDate;
 import java.util.List;
 
-import org.example.model.dto.Genre;
 import org.example.model.dto.Movie;
 import org.example.model.dto.Review;
 import org.example.model.service.ReviewService;
@@ -21,7 +19,7 @@ public class ReviewController {
 	 */
 	public static void findReviewByReviewNo(int userNo, int reviewNo) {
 		try {
-			Review review = reviewService.findReviewByReviewNo(reviewNo);
+			Review review = reviewService.getReviewByReviewNo(reviewNo);
 			Movie movie = new Movie("테스트영화제목", "테스트감독", null, null, 100, null);
 			String userName = "유저1";
 			
@@ -45,22 +43,50 @@ public class ReviewController {
 	/**
 	 * 해당 영화의 모든 리뷰를 조회
 	 */
-	public static void findReviewsByMovieNo(int movieNo) {
-		
+	public static void findReviewsByMovieNo(int movieNo, int page) {
+		try {
+			List<Review> list = reviewService.getReviewsPage("movie", movieNo, page);
+			TestViewMJ.printReviewsPreview(list);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
 	}
 	
 	/**
 	 * 현재 사용자(유저)가 작성한 모든 리뷰 조회
+	 * 필요 정보(4.2참고): 영화제목, 개봉년도 / 별점, 작성일, 글내용간략 / 좋아요수
 	 */
-	public static void findReviewsByUserNo(int userNo) {
-		
+	public static void findReviewsByUserNo(int userNo, int page) {
+		try {
+			List<Review> list = reviewService.getReviewsPage("user", userNo, page);
+			TestViewMJ.printReviewsPreview(list);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
 	}
 	
 	/**
 	 * 현재 사용자(유저)가 좋아요 한 모든 리뷰 조회
 	 */
-	public static void findReviewsByLike(int likeNo) {
-		
+	public static void findReviewsByLike(int userNo, int page) {
+		try {
+			List<Review> list = reviewService.getReviewsPage("like", userNo, page);
+			TestViewMJ.printReviewsPreview(list);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	/**
+	 * 현재 사용자(유저)가 팔로우 한 유저들의 리뷰 조회
+	 */
+	public static void findReviewsByFollow(int userNo, int page) {
+		try {
+			List<Review> list = reviewService.getReviewsPage("follow", userNo, page);
+			TestViewMJ.printReviewsPreview(list);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
 	}
 	
 	/**

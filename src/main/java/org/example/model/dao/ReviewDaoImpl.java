@@ -22,7 +22,7 @@ public class ReviewDaoImpl implements ReviewDao {
 	}
 
 	@Override
-	public Review findReviewByReviewNo(int reviewNo) throws Exception {
+	public Review selectReviewByReviewNo(int reviewNo) throws Exception {
 		Review review = null;
 		String sql = "select * from reviews where review_no = ?";
 		
@@ -42,7 +42,7 @@ public class ReviewDaoImpl implements ReviewDao {
 				}
 			}
 		} catch (SQLException e) {
-			//e.printStackTrace();
+			e.printStackTrace();
 			// TODO 사용자정의 예외 처리
 			//throw new MyException("DB 문제");
 		}
@@ -51,13 +51,21 @@ public class ReviewDaoImpl implements ReviewDao {
 	}
 	
 	@Override
-	public List<Review> findReviewsByMovieNo(int movieNo) throws Exception {
+	public List<Review> selectReviewsPage(String entity, int no, int page, int size) throws Exception {
 		List<Review> list = new ArrayList<>();
-		String sql = "select * from reviews where movie_no = ?";
+		int offset = (page - 1) * size;
+		String sql = null;
+		
+		if ("movie".equals(entity)) 
+			sql = "select * from reviews where movie_no = ? order by reg_date desc limit ? offset ?";
+		else if ("user".equals(entity))
+			sql = "select * from reviews where user_no = ? order by reg_date desc limit ? offset ?";
 		
 		try (Connection con = dbManager.getConnection();
 				PreparedStatement ps = con.prepareStatement(sql);) {
-			ps.setInt(1, movieNo);
+			ps.setInt(1, no);
+			ps.setInt(2, size);
+			ps.setInt(3, offset);
 			
 			try (ResultSet rs = ps.executeQuery();) {
 				while (rs.next()) {
@@ -71,22 +79,63 @@ public class ReviewDaoImpl implements ReviewDao {
 				}
 			}
 		} catch (SQLException e) {
-			//e.printStackTrace();
+			e.printStackTrace();
 			// TODO 사용자정의 예외 처리
 			//throw new MyException("DB 문제");
 		}
 		
 		return list;
 	}
-
+	
 	@Override
-	public List<Review> findReviewsByUserNo(int userNo) throws Exception {
+	public List<Review> selectTwiceReviewsPage(String entity, int no, int page, int size) throws Exception {
 		List<Review> list = new ArrayList<>();
-		String sql = "select * from reviews where user_no = ?";
+		List<Integer> reviewNoList = new ArrayList<>();
+		String sql = null;
+		
+		if ("like".equals(entity))
+			sql = "select review_no from likes where user_no = ?";
+		else if ("follow".equals(entity))
+			sql = "select following_no from follows where follower_no = ?";
 		
 		try (Connection con = dbManager.getConnection();
 				PreparedStatement ps = con.prepareStatement(sql);) {
-			ps.setInt(1, userNo);
+			ps.setInt(1, no);
+			
+			try (ResultSet rs = ps.executeQuery();) {
+				while (rs.next()) {
+					reviewNoList.add(rs.getInt(1));
+				}
+				
+				list = selectReviewsByReviewNos(con, reviewNoList, entity, page, size);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			// TODO 사용자정의 예외 처리
+		}
+		
+		return list;
+	}
+	
+	private List<Review> selectReviewsByReviewNos(Connection con, List<Integer> reviewNoList, String entity, int page, int size) throws Exception {
+		List<Review> list = new ArrayList<>();
+		int offset = (page - 1) * size;
+		String sql = null;
+		
+		String nos = reviewNoList.toString();
+		nos = nos.substring(1, nos.length() - 1);
+		
+		if ("like".equals(entity))
+			sql = "select * from reviews where review_no in (" + nos + ") "
+					+ "order by reg_date desc limit ? offset ?";
+		if ("follow".equals(entity))
+			sql = "select * from reviews where user_no in (" + nos + ") "
+					+ "order by reg_date desc limit ? offset ?";
+		
+		try (PreparedStatement ps = con.prepareStatement(sql);) {
+			ps.setInt(1, size);
+			ps.setInt(2, offset);
+			
 			try (ResultSet rs = ps.executeQuery();) {
 				while (rs.next()) {
 					list.add(new Review(
@@ -96,59 +145,7 @@ public class ReviewDaoImpl implements ReviewDao {
 							rs.getString(4), 
 							rs.getInt(5), 
 							rs.getInt(6)));
-				}				
-			}
-		} catch (SQLException e) {
-			//e.printStackTrace();
-			// TODO 사용자정의 예외 처리
-		}
-		
-		return list;
-	}
-
-	@Override
-	public List<Review> findReviewsByLike(int userNo) throws Exception {
-		List<Review> list = new ArrayList<>();
-		List<Integer> reviewNoList = new ArrayList<>();
-		String sql = "select review_no from likes where user_no = ?";
-		
-		try (Connection con = dbManager.getConnection();
-				PreparedStatement ps = con.prepareStatement(sql);) {
-			ps.setInt(1, userNo);
-			
-			try (ResultSet rs = ps.executeQuery();) {
-				while (rs.next()) {
-					reviewNoList.add(rs.getInt("review_no"));
 				}
-				
-				list = findReviewsByReviewNos(con, reviewNoList);
-			}
-		} catch (SQLException e) {
-			//e.printStackTrace();
-			// TODO 사용자정의 예외 처리
-		}
-		
-		return list;
-	}
-	
-	private List<Review> findReviewsByReviewNos(Connection con, List<Integer> reviewNoList) throws Exception {
-		List<Review> list = new ArrayList<>();
-		
-		String nos = reviewNoList.toString();
-		nos = nos.substring(1, nos.length() - 1);
-		
-		String sql = "select * from reviews where review_no in (" + nos + ")";
-		
-		try (PreparedStatement ps = con.prepareStatement(sql);
-				ResultSet rs = ps.executeQuery();) {
-			while (rs.next()) {
-				list.add(new Review(
-						rs.getInt(1), 
-						rs.getInt(2), 
-						rs.getString(3), 
-						rs.getString(4), 
-						rs.getInt(5), 
-						rs.getInt(6)));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

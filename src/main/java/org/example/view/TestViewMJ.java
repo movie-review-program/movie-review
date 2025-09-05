@@ -14,15 +14,14 @@ public class TestViewMJ {
 	static Scanner sc = new Scanner(System.in);
 
 	public static void main(String[] args) {
+		new TestViewMJ().testDao();
 		tempMenu();
 	}
 	
 	////////////////////// 임시 Menu View //////////////////////////////
 	public static void tempMenu() {
-		// 영화 상세 정보 화면 -> 리뷰 보기 클릭 시
-		
 		// 리뷰 상세 보기 (영화정보, 유저정보 둘 다 필요)
-		ReviewController.findReviewByReviewNo(1, 17);
+		ReviewController.findReviewByReviewNo(1, 3);
 		
 		/*
 		// 이러면 controller 의 메소드들이 리턴값이 있어야 함 -> X
@@ -31,10 +30,32 @@ public class TestViewMJ {
 		User user = userService.findUserByUserNo(userNo);
 		printReviewFromUser(user.getUserName(), review, movie);
 		 */
+		
+		// 리뷰 요약 보기 (영화정보, 유저정보 반영 X)
+		// 내가 쓴 리뷰 보기
+		ReviewController.findReviewsByFollow(2, 1);
 	}
 	
+	
 	public static void printReviewsPreview(List<Review> reviewList) {
-		
+		System.out.println("┌─────────────────────────────────────────────────┐");
+        System.out.println("│              👥 팔로워 리뷰 피드                 │");
+        System.out.println("├─────────────────────────────────────────────────┤");
+
+        for (Review review : reviewList) {
+        	if (review != null)
+        	System.out.printf("│  📍 %s님의 리뷰 (%s)%24s│%n", "user.getName()", "(2시간 전)", "");
+            System.out.printf("│  🎬 %s %s (%d.0)%20s│%n", "movie.getMovieName()", "★★★★★", review.getRating(), "");
+            System.out.printf("│  👍 %d  💭 \"%s\"%25s│%n", review.getLikeCnt(), review.getContentPreviw(), "");
+            System.out.println("│  ────────────────────────────────────────────   │");
+	        
+        }
+
+        System.out.println("├─────────────────────────────────────────────────┤");
+        System.out.println("│  1.번호 입력시 상세보기 | R: 다음으로  | 0: 뒤로   │");
+        System.out.println("│  선택하세요: _                                  │");
+        System.out.println("└─────────────────────────────────────────────────┘");
+ 
 	}
 	
 	public static void printReview(String username, Review review, Movie movie) {
@@ -102,13 +123,13 @@ public class TestViewMJ {
 	public void testDao() {
 		try {
 			System.out.println("----- 사용자 리뷰 목록 -----");
-			List<Review> list = rd.findReviewsByUserNo(1);
+			List<Review> list = rd.selectReviewsPage("user", 1, 1, 3);
 			for (Review r : list) {
 				System.out.println(r);
 			}
 			
 			System.out.println("----- 좋아요 리뷰 목록 -----");
-			list = rd.findReviewsByLike(1);
+			list = rd.selectTwiceReviewsPage("like", 1, 1, 3);
 			for (Review r : list) {
 				System.out.println(r);
 			}
@@ -120,15 +141,11 @@ public class TestViewMJ {
 			System.out.println(rd.getAverageRating(1));
 			
 			System.out.println("----- 영화의 리뷰 조회 -----");
-			System.out.println(rd.findReviewsByMovieNo(1));
+			System.out.println(rd.selectReviewsPage("movie", 1, 1, 3));
 			
 			System.out.println("----- 유저의 리뷰 조회 -----");
-			System.out.println(rd.findReviewsByUserNo(1));
+			System.out.println(rd.selectReviewsPage("user", 1, 1, 3));
 			
-			System.out.println("----- 리뷰 등록 -----");
-			Review review = new Review(5, "좋아요", 3, 2);
-			rd.insertReview(review);
-			System.out.println(rd.findReviewsByUserNo(3));
 			
 		} catch (Exception e) {
 			e.printStackTrace();
