@@ -21,7 +21,7 @@ public class ReviewController {
 	 */
 	public static void findReviewByReviewNo(int userNo, int reviewNo) {
 		try {
-			Review review = reviewService.findReviewByReviewNo(reviewNo);
+			Review review = reviewService.getReviewByReviewNo(reviewNo);
 			Movie movie = new Movie("테스트영화제목", "테스트감독", null, null, 100, null);
 			String userName = "유저1";
 			

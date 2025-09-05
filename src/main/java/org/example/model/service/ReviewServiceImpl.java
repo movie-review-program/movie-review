@@ -17,8 +17,8 @@ public class ReviewServiceImpl implements ReviewService {
 	}
 
 	@Override
-	public Review findReviewByReviewNo(int reviewNo) throws Exception {
-		Review review = reviewDao.findReviewByReviewNo(reviewNo);
+	public Review getReviewByReviewNo(int reviewNo) throws Exception {
+		Review review = reviewDao.selectReviewByReviewNo(reviewNo);
 		
 		if (review == null)
 			throw new Exception("해당 리뷰가 존재하지 않습니다.");
@@ -27,31 +27,17 @@ public class ReviewServiceImpl implements ReviewService {
 	}
 	
 	@Override
-	public List<Review> findReviewsByMovieNo(int movieNo) throws Exception {
-		List<Review> list = reviewDao.findReviewsByMovieNo(movieNo);
-
-		if (list.isEmpty())
-			throw new Exception("해당 영화에 리뷰가 없습니다.");
+	public List<Review> getReviewsPage(String entity, int no, int page) throws Exception {
+		List<Review> list = null;
+		int size = 3;
 		
-		return list;
-	}
-
-	@Override
-	public List<Review> findReviewsByUserNo(int userNo) throws Exception {
-		List<Review> list = reviewDao.findReviewsByUserNo(userNo);
+		if ("movie".equals(entity) || "user".equals(entity)) 
+			list = reviewDao.selectReviewsPage(entity, no, page, size);
+		else if ("like".equals(entity) || "follow".equals(entity))
+			list = reviewDao.selectTwiceReviewsPage(entity, no, page, size);
 		
 		if (list.isEmpty())
-			throw new Exception("사용자가 남긴 리뷰가 없습니다.");
-		
-		return list;
-	}
-
-	@Override
-	public List<Review> findReviewsByLike(int userNo) throws Exception {
-		List<Review> list = reviewDao.findReviewsByLike(userNo);
-		
-		if (list.isEmpty())
-			throw new Exception("좋아요 한 리뷰가 없습니다.");
+			throw new Exception("리뷰가 존재하지 않습니다.");
 		
 		return list;
 	}

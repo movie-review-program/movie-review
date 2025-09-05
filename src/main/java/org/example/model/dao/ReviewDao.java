@@ -11,32 +11,32 @@ public interface ReviewDao {
 	 * @return
 	 * @throws Exception
 	 */
-	Review findReviewByReviewNo(int reviewNo) throws Exception;
+	Review selectReviewByReviewNo(int reviewNo) throws Exception;
+	
 	
 	/**
-	 * 영화의 리뷰를 조회
-	 * @param movieNo
+	 * 리뷰 요약 보기를 위한 리뷰 목록 조회
+	 * 영화, 유저를 통한 리뷰를 size 개수만큼 반환
+	 * @param entity 영화, 유저
+	 * @param page 1부터 시작
+	 * @param size
 	 * @return
 	 * @throws Exception
 	 */
-	List<Review> findReviewsByMovieNo(int movieNo) throws Exception;
+	List<Review> selectReviewsPage(String entity, int no, int page, int size) throws Exception;
 	
 	/**
-	 * 현재 사용자(유저)가 작성한 리뷰 조회
-	 * @param userNo
+	 * 좋아요, 팔로우 리뷰 요약 보기를 위한 리뷰 목록 조회
+	 * 좋아요: 유저번호를 조건으로 likes 테이블에서 리뷰번호를 가져온 후, 리뷰번호에 해당하는 리뷰들을 리턴한다.
+	 * 팔로우: followerNo를 조건으로 follows 테이블에서 followingNo 가져온 후, 이 유저들이 작성한 리뷰들을 리턴한다.
+	 * @param entity
+	 * @param no
+	 * @param page 1부터 시작
+	 * @param size
 	 * @return
 	 * @throws Exception
 	 */
-	List<Review> findReviewsByUserNo(int userNo) throws Exception;
-	
-	/**
-	 * 현재 사용자(유저)가 좋아요 한 리뷰 조회
-	 * 유저번호를 조건으로 likes 테이블에서 리뷰번호를 가져온 후, 리뷰번호에 해당하는 리뷰들을 리턴한다.
-	 * @param likeNo
-	 * @return
-	 * @throws Exception
-	 */
-	List<Review> findReviewsByLike(int userNo) throws Exception;
+	List<Review> selectTwiceReviewsPage(String entity, int no, int page, int size) throws Exception;
 	
 	/**
 	 * 해당 영화의 리뷰 개수를 조회
