@@ -5,31 +5,19 @@ import java.time.LocalDateTime;
 
 public class User {
 
-    
-    private int userNo;
-
-   
+    private int userNo;  
     private String email;
-
-   
     private String password;
-
-   
     private String name;
-
-
     private LocalDateTime joinDate;
 
-  
     public User() {}
-
 
     public User(String email, String password, String name) {
         this.email = email;
         this.password = password;
         this.name = name;
     }
-
    
     public User(int userNo, String email, String password, String name, LocalDateTime joinDate) {
         this.userNo = userNo;
@@ -38,8 +26,6 @@ public class User {
         this.name = name;
         this.joinDate = joinDate;
     }
-
-   
 
     public int getUserNo() {
         return userNo;
@@ -81,7 +67,6 @@ public class User {
         this.joinDate = joinDate;
     }
 
-   
     @Override
     public String toString() {
         return "UserDTO{" +
