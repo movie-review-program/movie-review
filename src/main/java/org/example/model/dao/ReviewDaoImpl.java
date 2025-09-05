@@ -32,13 +32,15 @@ public class ReviewDaoImpl implements ReviewDao {
 			
 			try (ResultSet rs = ps.executeQuery();) {
 				if (rs.next()) {
+					int likeCnt = this.getLikeCount(reviewNo);
 					review = new Review(
 							rs.getInt(1), 
 							rs.getInt(2), 
 							rs.getString(3), 
 							rs.getString(4), 
 							rs.getInt(5), 
-							rs.getInt(6));
+							rs.getInt(6),
+							likeCnt);
 				}
 			}
 		} catch (SQLException e) {
@@ -69,13 +71,16 @@ public class ReviewDaoImpl implements ReviewDao {
 			
 			try (ResultSet rs = ps.executeQuery();) {
 				while (rs.next()) {
+					int reviewNo = rs.getInt(1);
+					int likeCnt = this.getLikeCount(reviewNo);
 					list.add(new Review(
-							rs.getInt(1), 
+							reviewNo, 
 							rs.getInt(2), 
 							rs.getString(3), 
 							rs.getString(4), 
 							rs.getInt(5), 
-							rs.getInt(6)));
+							rs.getInt(6),
+							likeCnt));
 				}
 			}
 		} catch (SQLException e) {
@@ -138,13 +143,16 @@ public class ReviewDaoImpl implements ReviewDao {
 			
 			try (ResultSet rs = ps.executeQuery();) {
 				while (rs.next()) {
+					int reviewNo = rs.getInt(1);
+					int likeCnt = this.getLikeCount(reviewNo);
 					list.add(new Review(
-							rs.getInt(1), 
+							reviewNo, 
 							rs.getInt(2), 
 							rs.getString(3), 
 							rs.getString(4), 
 							rs.getInt(5), 
-							rs.getInt(6)));
+							rs.getInt(6),
+							likeCnt));
 				}
 			}
 		} catch (SQLException e) {
@@ -300,19 +308,23 @@ public class ReviewDaoImpl implements ReviewDao {
 
 	@Override
 	public int getLikeCount(int reviewNo) throws Exception {
-		int result = 0;
+		int count = 0;
 		String sql = "select count(user_no) from likes where review_no = ?";
 		
 		try (Connection con = dbManager.getConnection();
 				PreparedStatement ps = con.prepareStatement(sql);) {
 			ps.setInt(1, reviewNo);
 			
-			result = ps.executeUpdate();
+			try (ResultSet rs = ps.executeQuery();) {
+				if (rs.next()) {
+					count = rs.getInt(1);
+				}
+			}
 		} catch (SQLException e) {
-			//e.printStackTrace();
+			e.printStackTrace();
 			// TODO 사용자정의 예외 처리
 		}
 		
-		return result;
+		return count;
 	}
 }

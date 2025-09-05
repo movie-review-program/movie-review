@@ -93,7 +93,13 @@ public class ReviewController {
 	 * 리뷰 등록
 	 */
 	public static void insertReview(Review review) {
-		
+		try {
+			reviewService.insertReview(review);
+			TestViewMJ.printMyReview(review);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			//FailView.errorMessage(e.getMessage());
+		}
 	}
 	
 	/**
