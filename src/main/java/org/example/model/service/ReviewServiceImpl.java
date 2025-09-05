@@ -2,6 +2,7 @@ package org.example.model.service;
 
 import java.util.List;
 
+import org.example.common.ReviewContext;
 import org.example.model.dao.ReviewDao;
 import org.example.model.dao.ReviewDaoImpl;
 import org.example.model.dto.Review;
@@ -27,14 +28,14 @@ public class ReviewServiceImpl implements ReviewService {
 	}
 	
 	@Override
-	public List<Review> getReviewsPage(String entity, int no, int page) throws Exception {
+	public List<Review> getReviewsPage(ReviewContext type, int no, int page) throws Exception {
 		List<Review> list = null;
 		int size = 3;
 		
-		if ("movie".equals(entity) || "user".equals(entity)) 
-			list = reviewDao.selectReviewsPage(entity, no, page, size);
-		else if ("like".equals(entity) || "follow".equals(entity))
-			list = reviewDao.selectTwiceReviewsPage(entity, no, page, size);
+		if (type == ReviewContext.MOVIE || type == ReviewContext.USER) 
+			list = reviewDao.selectReviewsPage(type, no, page, size);
+		else if (type == ReviewContext.LIKE || type == ReviewContext.FOLLOW)
+			list = reviewDao.selectTwiceReviewsPage(type, no, page, size);
 		
 		if (list.isEmpty())
 			throw new Exception("리뷰가 존재하지 않습니다.");

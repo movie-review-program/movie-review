@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.example.common.ReviewContext;
 import org.example.model.dto.Review;
 import org.example.util.DBManager;
 import org.example.util.DBManagerImpl;
@@ -53,14 +54,14 @@ public class ReviewDaoImpl implements ReviewDao {
 	}
 	
 	@Override
-	public List<Review> selectReviewsPage(String entity, int no, int page, int size) throws Exception {
+	public List<Review> selectReviewsPage(ReviewContext type, int no, int page, int size) throws Exception {
 		List<Review> list = new ArrayList<>();
 		int offset = (page - 1) * size;
 		String sql = null;
 		
-		if ("movie".equals(entity)) 
+		if (type == ReviewContext.MOVIE) 
 			sql = "select * from reviews where movie_no = ? order by reg_date desc limit ? offset ?";
-		else if ("user".equals(entity))
+		else if (type == ReviewContext.USER)
 			sql = "select * from reviews where user_no = ? order by reg_date desc limit ? offset ?";
 		
 		try (Connection con = dbManager.getConnection();
@@ -93,14 +94,14 @@ public class ReviewDaoImpl implements ReviewDao {
 	}
 	
 	@Override
-	public List<Review> selectTwiceReviewsPage(String entity, int no, int page, int size) throws Exception {
+	public List<Review> selectTwiceReviewsPage(ReviewContext type, int no, int page, int size) throws Exception {
 		List<Review> list = new ArrayList<>();
 		List<Integer> reviewNoList = new ArrayList<>();
 		String sql = null;
 		
-		if ("like".equals(entity))
+		if (type == ReviewContext.LIKE)
 			sql = "select review_no from likes where user_no = ?";
-		else if ("follow".equals(entity))
+		else if (type == ReviewContext.FOLLOW)
 			sql = "select following_no from follows where follower_no = ?";
 		
 		try (Connection con = dbManager.getConnection();
@@ -112,7 +113,7 @@ public class ReviewDaoImpl implements ReviewDao {
 					reviewNoList.add(rs.getInt(1));
 				}
 				
-				list = selectReviewsByReviewNos(con, reviewNoList, entity, page, size);
+				list = selectReviewsByReviewNos(con, reviewNoList, type, page, size);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -122,7 +123,7 @@ public class ReviewDaoImpl implements ReviewDao {
 		return list;
 	}
 	
-	private List<Review> selectReviewsByReviewNos(Connection con, List<Integer> reviewNoList, String entity, int page, int size) throws Exception {
+	private List<Review> selectReviewsByReviewNos(Connection con, List<Integer> reviewNoList, ReviewContext type, int page, int size) throws Exception {
 		List<Review> list = new ArrayList<>();
 		int offset = (page - 1) * size;
 		String sql = null;
@@ -130,10 +131,10 @@ public class ReviewDaoImpl implements ReviewDao {
 		String nos = reviewNoList.toString();
 		nos = nos.substring(1, nos.length() - 1);
 		
-		if ("like".equals(entity))
+		if (type == ReviewContext.LIKE)
 			sql = "select * from reviews where review_no in (" + nos + ") "
 					+ "order by reg_date desc limit ? offset ?";
-		if ("follow".equals(entity))
+		if (type == ReviewContext.FOLLOW)
 			sql = "select * from reviews where user_no in (" + nos + ") "
 					+ "order by reg_date desc limit ? offset ?";
 		

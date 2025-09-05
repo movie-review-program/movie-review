@@ -2,6 +2,7 @@ package org.example.model.service;
 
 import java.util.List;
 
+import org.example.common.ReviewContext;
 import org.example.model.dto.Review;
 
 public interface ReviewService {
@@ -15,7 +16,7 @@ public interface ReviewService {
 	 * 영화, 유저, 좋아요, 팔로우를 통한 리뷰 목록 조회
 	 * (리뷰 요약 보기에서 사용)
 	 */
-	List<Review> getReviewsPage(String entity, int no, int page) throws Exception;
+	List<Review> getReviewsPage(ReviewContext type, int no, int page) throws Exception;
 	
 	/**
 	 * 리뷰 등록

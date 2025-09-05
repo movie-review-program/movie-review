@@ -2,6 +2,7 @@ package org.example.controller;
 
 import java.util.List;
 
+import org.example.common.ReviewContext;
 import org.example.model.dto.Movie;
 import org.example.model.dto.Review;
 import org.example.model.service.ReviewService;
@@ -39,55 +40,72 @@ public class ReviewController {
 		}
 		 */
 	}
-	
+
 	/**
-	 * 해당 영화의 모든 리뷰를 조회
+	 * 리뷰 요약 보기
+	 * @param type 영화, 유저, 좋아요, 팔로우
+	 * @param no : 
+	 * 	영화-"어떤 영화"의 리뷰를 볼 건지 / 유저-"어떤 유저"의 리뷰를 볼 건지 / 
+	 * 	좋아요-"현재 유저"가 좋아요 한 리뷰 / 팔로우-"현재 유저"가 팔로우한 유저들의 리뷰
+	 * @param page
 	 */
-	public static void findReviewsByMovieNo(int movieNo, int page) {
+	public static void getReviewsPreview(ReviewContext type, int no, int page) {
 		try {
-			List<Review> list = reviewService.getReviewsPage("movie", movieNo, page);
-			TestViewMJ.printReviewsPreview(list);
+			List<Review> list = reviewService.getReviewsPage(type, no, page);
+			TestViewMJ.printReviewsPreview(type, list);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
 	}
 	
-	/**
-	 * 현재 사용자(유저)가 작성한 모든 리뷰 조회
-	 * 필요 정보(4.2참고): 영화제목, 개봉년도 / 별점, 작성일, 글내용간략 / 좋아요수
-	 */
-	public static void findReviewsByUserNo(int userNo, int page) {
-		try {
-			List<Review> list = reviewService.getReviewsPage("user", userNo, page);
-			TestViewMJ.printReviewsPreview(list);
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
-	}
-	
-	/**
-	 * 현재 사용자(유저)가 좋아요 한 모든 리뷰 조회
-	 */
-	public static void findReviewsByLike(int userNo, int page) {
-		try {
-			List<Review> list = reviewService.getReviewsPage("like", userNo, page);
-			TestViewMJ.printReviewsPreview(list);
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
-	}
-	
-	/**
-	 * 현재 사용자(유저)가 팔로우 한 유저들의 리뷰 조회
-	 */
-	public static void findReviewsByFollow(int userNo, int page) {
-		try {
-			List<Review> list = reviewService.getReviewsPage("follow", userNo, page);
-			TestViewMJ.printReviewsPreview(list);
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
-	}
+//	/**
+//	 * 해당 영화의 모든 리뷰를 조회
+//	 */
+//	public static void findReviewsByMovieNo(int movieNo, int page) {
+//		try {
+//			List<Review> list = reviewService.getReviewsPage(ReviewContext.MOVIE, movieNo, page);
+//			TestViewMJ.printReviewsPreview(ReviewContext.MOVIE, list);
+//		} catch (Exception e) {
+//			System.out.println(e.getMessage());
+//		}
+//	}
+//	
+//	/**
+//	 * 현재 사용자(유저)가 작성한 모든 리뷰 조회
+//	 * 필요 정보(4.2참고): 영화제목, 개봉년도 / 별점, 작성일, 글내용간략 / 좋아요수
+//	 */
+//	public static void findReviewsByUserNo(int userNo, int page) {
+//		try {
+//			List<Review> list = reviewService.getReviewsPage(ReviewContext.USER, userNo, page);
+//			TestViewMJ.printReviewsPreview(ReviewContext.USER, list);
+//		} catch (Exception e) {
+//			System.out.println(e.getMessage());
+//		}
+//	}
+//	
+//	/**
+//	 * 현재 사용자(유저)가 좋아요 한 모든 리뷰 조회
+//	 */
+//	public static void findReviewsByLike(int userNo, int page) {
+//		try {
+//			List<Review> list = reviewService.getReviewsPage(ReviewContext.LIKE, userNo, page);
+//			TestViewMJ.printReviewsPreview(ReviewContext.LIKE, list);
+//		} catch (Exception e) {
+//			System.out.println(e.getMessage());
+//		}
+//	}
+//	
+//	/**
+//	 * 현재 사용자(유저)가 팔로우 한 유저들의 리뷰 조회
+//	 */
+//	public static void findReviewsByFollow(int userNo, int page) {
+//		try {
+//			List<Review> list = reviewService.getReviewsPage(ReviewContext.FOLLOW, userNo, page);
+//			TestViewMJ.printReviewsPreview(ReviewContext.FOLLOW, list);
+//		} catch (Exception e) {
+//			System.out.println(e.getMessage());
+//		}
+//	}
 	
 	/**
 	 * 리뷰 등록
@@ -106,13 +124,23 @@ public class ReviewController {
 	 * 현재 사용자(유저)가 작성한 리뷰 수정
 	 */
 	public static void updateReview(Review review) {
-		
+		try {
+			reviewService.updateReview(review);
+			
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
 	}
 	
 	/**
 	 * 현재 사용자(유저)가 선택한 리뷰 삭제
 	 */
 	public static void deleteReview(int reviewNo) {
-		
+		try {
+			reviewService.deleteReview(reviewNo);
+			
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
 	}
 }

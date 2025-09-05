@@ -3,10 +3,11 @@ package org.example.view;
 import java.util.List;
 import java.util.Scanner;
 
-import org.example.model.dto.Movie;
+import org.example.common.ReviewContext;
 import org.example.controller.ReviewController;
 import org.example.model.dao.ReviewDao;
 import org.example.model.dao.ReviewDaoImpl;
+import org.example.model.dto.Movie;
 import org.example.model.dto.Review;
 
 public class TestViewMJ {
@@ -23,8 +24,6 @@ public class TestViewMJ {
 	public static void tempMenu() {
 		// 리뷰 상세 보기 (영화정보, 유저정보 둘 다 필요)
 		ReviewController.findReviewByReviewNo(1, 1);
-		
-		
 		/*
 		// 이러면 controller 의 메소드들이 리턴값이 있어야 함 -> X
 		Review review = ReviewController.findReviewByReviewNo(reviewNo);
@@ -35,25 +34,37 @@ public class TestViewMJ {
 		
 		// 리뷰 요약 보기 (영화정보, 유저정보 반영 X)
 		// 내가 쓴 리뷰 보기
-		ReviewController.findReviewsByFollow(2, 1);
+		ReviewController.getReviewsPreview(ReviewContext.USER, 1, 1);
+		
+		// 영화 리뷰 보기
+		ReviewController.getReviewsPreview(ReviewContext.MOVIE, 2, 1);
+		
+		// 팔로우 리뷰 보기
+		ReviewController.getReviewsPreview(ReviewContext.FOLLOW, 1, 1);
+		
+		// 좋아요 리뷰 보기
+		ReviewController.getReviewsPreview(ReviewContext.LIKE, 1, 1);
+		
+		
 		
 		// 리뷰 등록
 		//inputReview(3,2);
 	}
 	
 	
-	public static void printReviewsPreview(List<Review> reviewList) {
+	public static void printReviewsPreview(ReviewContext type, List<Review> reviewList) {
 		System.out.println("┌─────────────────────────────────────────────────┐");
-        System.out.println("│              👥 팔로워 리뷰 피드                 │");
+		printReviewsPreviewTitle(type);
         System.out.println("├─────────────────────────────────────────────────┤");
 
         for (Review review : reviewList) {
-        	if (review != null)
+        	if (type != ReviewContext.USER)
         	System.out.printf("│  📍 %s님의 리뷰 (%s)%24s│%n", "user.getName()", "(2시간 전)", "");
-            System.out.printf("│  🎬 %s %s (%d.0)%20s│%n", "movie.getMovieName()", "★★★★★", review.getRating(), "");
+        	if (type != ReviewContext.MOVIE)
+        		System.out.printf("│  🎬 %s %s (%d.0)%20s│%n", "movie.getMovieName()", "★★★★★", review.getRating(), "");
             System.out.printf("│  👍 %d  💭 \"%s\"%25s│%n", review.getLikeCnt(), review.getContentPreviw(), "");
             System.out.println("│  ────────────────────────────────────────────   │");
-	        
+
         }
 
         System.out.println("├─────────────────────────────────────────────────┤");
@@ -61,6 +72,17 @@ public class TestViewMJ {
         System.out.println("│  선택하세요: _                                  │");
         System.out.println("└─────────────────────────────────────────────────┘");
  
+	}
+	
+	public static void printReviewsPreviewTitle(ReviewContext type) {
+		switch(type) {
+			case MOVIE -> System.out.println("│                🎬 영화 리뷰 보기                	  │");
+			case USER -> System.out.println("│                📚 내 리뷰 목록                	  │");
+			case LIKE -> System.out.println("│                 👥 좋아요 한 리뷰                	  │");
+			case FOLLOW -> System.out.println("│                👥 팔로워 리뷰 피드                	  │");
+		}
+			
+		
 	}
 	
 	public static void inputReview(int movieNo, int userNo) {
@@ -147,38 +169,18 @@ public class TestViewMJ {
 		
 //		Review review = new Review(rating, content, movie.getMovieNo(), userNo);
 	}
-	
-	
-	/////////////////// ReviewController 테스트 ///////////////////
-	public void testController() {
-		
-	}
-	
-	
-	////////////// MovieController /////////////////
-	public static void findMovieByName(long userNo, String title) {
-	try {
-//	Movie movie = MovieService.findMovieByTitle(title);	// throw 사용자정의예외
-//	EndView.printMovieInfo(userNo, movie);
-	//EndView.printMovieInfo(movie);
-	} catch (Exception e) {
-	// 해당 영화가 없습니다.
-//	FailView.errorMessage(e.getMessage());	
-	}
-	}
-	
 
 	
 	public void testDao() {
 		try {
 			System.out.println("----- 사용자 리뷰 목록 -----");
-			List<Review> list = rd.selectReviewsPage("user", 1, 1, 3);
+			List<Review> list = rd.selectReviewsPage(ReviewContext.USER, 1, 1, 3);
 			for (Review r : list) {
 				System.out.println(r);
 			}
 			
 			System.out.println("----- 좋아요 리뷰 목록 -----");
-			list = rd.selectTwiceReviewsPage("like", 1, 1, 3);
+			list = rd.selectTwiceReviewsPage(ReviewContext.LIKE, 1, 1, 3);
 			for (Review r : list) {
 				System.out.println(r);
 			}
@@ -190,10 +192,10 @@ public class TestViewMJ {
 			System.out.println(rd.getAverageRating(1));
 			
 			System.out.println("----- 영화의 리뷰 조회 -----");
-			System.out.println(rd.selectReviewsPage("movie", 1, 1, 3));
+			System.out.println(rd.selectReviewsPage(ReviewContext.MOVIE, 1, 1, 3));
 			
 			System.out.println("----- 유저의 리뷰 조회 -----");
-			System.out.println(rd.selectReviewsPage("user", 1, 1, 3));
+			System.out.println(rd.selectReviewsPage(ReviewContext.USER, 1, 1, 3));
 			
 			System.out.println("----- 좋아요 개수 -----");
 			System.out.println(rd.getLikeCount(1));

@@ -2,6 +2,7 @@ package org.example.model.dao;
 
 import java.util.List;
 
+import org.example.common.ReviewContext;
 import org.example.model.dto.Review;
 
 public interface ReviewDao {
@@ -23,7 +24,7 @@ public interface ReviewDao {
 	 * @return
 	 * @throws Exception
 	 */
-	List<Review> selectReviewsPage(String entity, int no, int page, int size) throws Exception;
+	List<Review> selectReviewsPage(ReviewContext type, int no, int page, int size) throws Exception;
 	
 	/**
 	 * 좋아요, 팔로우 리뷰 요약 보기를 위한 리뷰 목록 조회
@@ -36,7 +37,7 @@ public interface ReviewDao {
 	 * @return
 	 * @throws Exception
 	 */
-	List<Review> selectTwiceReviewsPage(String entity, int no, int page, int size) throws Exception;
+	List<Review> selectTwiceReviewsPage(ReviewContext type, int no, int page, int size) throws Exception;
 	
 	/**
 	 * 해당 영화의 리뷰 개수를 조회
