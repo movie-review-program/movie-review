@@ -46,7 +46,7 @@ public class TestViewMJ {
         	if (review != null)
         	System.out.printf("│  📍 %s님의 리뷰 (%s)%24s│%n", "user.getName()", "(2시간 전)", "");
             System.out.printf("│  🎬 %s %s (%d.0)%20s│%n", "movie.getMovieName()", "★★★★★", review.getRating(), "");
-            System.out.printf("│  👍 %d  💭 \"%s\"%25s│%n", review.getLikeCnt(), review.getContentPreviw(), "");
+           // System.out.printf("│  👍 %d  💭 \"%s\"%25s│%n", review.getLikeCnt(), review.getContentPreviw(), "");
             System.out.println("│  ────────────────────────────────────────────   │");
 	        
         }

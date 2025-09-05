@@ -2,40 +2,30 @@ package org.example.util;
 
 import org.example.model.dto.User;
 
-
 public class SessionManagerImpl implements SessionManager {
-    
-    private static User currentUser = null;
-    private static final SessionManagerImpl instance = new SessionManagerImpl();
 
-    private SessionManagerImpl() {}
+	private static SessionManagerImpl instance = new SessionManagerImpl();
+	private User loggedInUser;
 
-    public static SessionManagerImpl getInstance() {
-        return instance;
-    }
+	private SessionManagerImpl() {
+	}
 
-    @Override
-    public void login(User user) {
-        currentUser = user;
-    }
+	public static SessionManagerImpl getInstance() {
+		return instance;
+	}
 
-    @Override
-    public void logout() {
-        currentUser = null;
-    }
+	@Override
+	public void setLoggedInUser(User user) {
+		this.loggedInUser = user;
+	}
 
-    @Override
-    public User getCurrentUser() {
-        return currentUser;
-    }
+	@Override
+	public User getLoggedInUser() {
+		return this.loggedInUser;
+	}
 
-    @Override
-    public boolean isLoggedIn() {
-        return currentUser != null;
-    }
-
-    @Override
-    public String getCurrentUserName() {
-        return currentUser != null ? currentUser.getName() : "비회원";
-    }
+	@Override
+	public void logout() {
+		this.loggedInUser = null;
+	}
 }
