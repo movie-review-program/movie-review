@@ -22,7 +22,7 @@ public class MovieController {
     public static void getMovieByMovieName(String movieName) {
         try {
             TestViewGJ.test1(movieService.getMovieByMovieName(movieName));
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -30,7 +30,7 @@ public class MovieController {
     public static void getMovieBasicInfo(int page) {
         try {
             TestViewGJ.test2(movieService.getMovieBasicInfo(page));
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -38,7 +38,7 @@ public class MovieController {
     public static void getMovieDetailInfo(int movieNo) {
         try {
             TestViewGJ.test3(movieService.getMovieDetailInfo(movieNo));
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

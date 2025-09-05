@@ -17,23 +17,23 @@ public interface MovieDao {
     /**
      * 영화 이름을 통해 존재하는 영화이름인지 확인
      * */
-    Movie selectMovieName(String movieName) throws SQLException;
+    Movie selectMovieName(String movieName) throws Exception;
 
     /**
      * 영화 기본 정보 페이징 조회
      * 정렬 순서: 최신순
      * */
-    List<Movie> selectMovieBasicPage(int page, int size) throws SQLException;
+    List<Movie> selectMovieBasicPage(int page, int size) throws Exception;
 
     /**
     * 영화 기본 정보 조회
      * */
-    Movie selectMovieBasic(int movieId) throws SQLException;
+    Movie selectMovieBasic(int movieNo) throws Exception;
 
     /**
      * * 영화 상세 조회
      * */
-    Movie selectMovieDetail(int movieId) throws SQLException;
+    Movie selectMovieDetail(int movieNo) throws Exception;
 
 
 

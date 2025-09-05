@@ -16,17 +16,17 @@ public interface MovieService {
     /**
     * 영화가 존재하는지 확인
     * */
-    Movie getMovieByMovieName(String movieName) throws SQLException;
+    Movie getMovieByMovieName(String movieName) throws Exception;
 
     /**
      * 영화 기본 정보 제공: 영화 번호, 제목, 개봉년도, 감독, 장르, 평점
      * */
-    List<Movie> getMovieBasicInfo(int page) throws SQLException;
+    List<Movie> getMovieBasicInfo(int page) throws Exception;
 
     /**
      * 영화 상세 정보 제공
      * 영화 상세 정보 제공: 영화 번호, 제목, 개봉년도, 감독, 장르, 줄거리, 평점, 리뷰개수
      * */
-    Movie getMovieDetailInfo(int movieNo) throws SQLException;
+    Movie getMovieDetailInfo(int movieNo) throws Exception;
 
 }

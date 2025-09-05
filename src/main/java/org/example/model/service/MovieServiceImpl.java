@@ -54,7 +54,7 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public Movie getMovieByMovieName(String movieName) throws SQLException {
+    public Movie getMovieByMovieName(String movieName) throws Exception {
         Movie movie = dao.selectMovieName(movieName.trim());
         if(movie == null)
             throw new SQLException("맞는 이름을 가진 영화가 존재하지 않습니다.");
@@ -62,7 +62,7 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public List<Movie> getMovieBasicInfo(int page) throws SQLException {
+    public List<Movie> getMovieBasicInfo(int page) throws Exception {
         List<Movie> movies = dao.selectMovieBasicPage(page, 5);
         if (movies.size() != 5)
             throw new SQLException("페이징된 정보 5개를 가져오지 못했습니다.");
@@ -70,7 +70,7 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public Movie getMovieDetailInfo(int movieNo) throws SQLException {
+    public Movie getMovieDetailInfo(int movieNo) throws Exception {
         Movie movie = dao.selectMovieDetail(movieNo);
         if (movie == null) {
             throw new SQLException("NO에 맞는 영화가 존재하지 않습니다");

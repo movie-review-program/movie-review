@@ -15,7 +15,6 @@ import org.example.util.DBManagerImpl;
 
 public class MovieDaoImpl implements MovieDao {
     DBManager dbManager = new DBManagerImpl();
-    //TODO: dao 합성
     ReviewDao reviewDao = ReviewDaoImpl.getInstance();
 
     @Override
@@ -81,7 +80,7 @@ public class MovieDaoImpl implements MovieDao {
     }
 
     @Override
-    public Movie selectMovieName(String movieName) throws SQLException {
+    public Movie selectMovieName(String movieName) throws Exception {
         Movie movie = null;
         String sql = """
                 select *
@@ -96,6 +95,8 @@ public class MovieDaoImpl implements MovieDao {
                 if (rs.next()) {
                     int movieNo = rs.getInt(1);
                     List<Genre> genres = selectGenresByMovieNo(movieNo);
+                    double ratings = reviewDao.getAverageRating(movieNo);
+                    int reviewCnt = reviewDao.getReviewCount(movieNo);
 
                     movie = new Movie(
                             movieNo,
@@ -104,7 +105,9 @@ public class MovieDaoImpl implements MovieDao {
                             rs.getDate(4).toLocalDate(),
                             rs.getString(5),
                             rs.getInt(6),
-                            genres
+                            genres,
+                            ratings,
+                            reviewCnt
                     );
                 }
             }
@@ -113,7 +116,7 @@ public class MovieDaoImpl implements MovieDao {
     }
 
     @Override
-    public List<Movie> selectMovieBasicPage(int page, int size) throws SQLException {
+    public List<Movie> selectMovieBasicPage(int page, int size) throws Exception {
         List<Movie> movies = new ArrayList<>();
         String sql = """
                 select *
@@ -132,6 +135,8 @@ public class MovieDaoImpl implements MovieDao {
                 while (rs.next()) {
                     int movieNo = rs.getInt(1);
                     List<Genre> genres = selectGenresByMovieNo(movieNo);
+                    double ratings = reviewDao.getAverageRating(movieNo);
+                    int reviewCnt = reviewDao.getReviewCount(movieNo);
 
                     movies.add(new Movie(
                             movieNo,
@@ -140,7 +145,9 @@ public class MovieDaoImpl implements MovieDao {
                             rs.getDate(4).toLocalDate(),
                             rs.getString(5),
                             rs.getInt(6),
-                            genres
+                            genres,
+                            ratings,
+                            reviewCnt
                     ));
                 }
             }
@@ -150,13 +157,75 @@ public class MovieDaoImpl implements MovieDao {
     }
 
     @Override
-    public Movie selectMovieBasic(int movieId) throws SQLException {
-        return null;
+    public Movie selectMovieBasic(int movieNo) throws Exception {
+        Movie movie = null;
+        String sql = """
+                select *
+                from movies
+                where movie_no = ?
+                """;
+        try (Connection con = dbManager.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, movieNo);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    int no = rs.getInt(1);
+                    List<Genre> genres = selectGenresByMovieNo(no);
+                    double ratings = reviewDao.getAverageRating(no);
+                    int reviewCnt = reviewDao.getReviewCount(no);
+
+                    movie = new Movie(
+                            no,
+                            rs.getString(2),
+                            rs.getString(3),
+                            rs.getDate(4).toLocalDate(),
+                            rs.getString(5),
+                            rs.getInt(6),
+                            genres,
+                            ratings,
+                            reviewCnt
+                    );
+                }
+            }
+        }
+        return movie;
     }
 
     @Override
-    public Movie selectMovieDetail(int movieId) throws SQLException {
-        return null;
+    public Movie selectMovieDetail(int movieNo) throws Exception {
+        Movie movie = null;
+        String sql = """
+                select *
+                from movies
+                where movie_no = ?
+                """;
+        try (Connection con = dbManager.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, movieNo);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    int no = rs.getInt(1);
+                    List<Genre> genres = selectGenresByMovieNo(no);
+                    double ratings = reviewDao.getAverageRating(no);
+                    int reviewCnt = reviewDao.getReviewCount(no);
+
+                    movie = new Movie(
+                            no,
+                            rs.getString(2),
+                            rs.getString(3),
+                            rs.getDate(4).toLocalDate(),
+                            rs.getString(5),
+                            rs.getInt(6),
+                            genres,
+                            ratings,
+                            reviewCnt
+                    );
+                }
+            }
+        }
+        return movie;
     }
 
     /*
