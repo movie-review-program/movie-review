@@ -14,6 +14,20 @@ public class User {
 	private int reviewCount;
 	private int followerCount;
 
+	public User(String email, String password, String name) {
+		this.email = email;
+		this.password = password;
+		this.name = name;
+	}
+
+	public User(int userNo, String email, String password, String name, LocalDateTime joinDate) {
+		this.userNo = userNo;
+		this.email = email;
+		this.password = password;
+		this.name = name;
+		this.joinDate = joinDate;
+	}
+
 	public int getUserNo() {
 		return userNo;
 	}

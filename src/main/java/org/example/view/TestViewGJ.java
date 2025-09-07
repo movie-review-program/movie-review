@@ -22,7 +22,7 @@ public class TestViewGJ {
 
     public static void main(String[] args) {
         MovieController.getMovieByMovieName("하얼빈");
-        MovieController.getMovieBasicInfo(2);
+        MovieController.getMovieBasicInfo(2, 3);
         MovieController.getMovieDetailInfo(1);
     }
 

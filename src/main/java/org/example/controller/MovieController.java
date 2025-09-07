@@ -1,9 +1,7 @@
 package org.example.controller;
 
 import java.sql.SQLException;
-import java.util.List;
 
-import org.example.model.dto.Movie;
 import org.example.model.service.MovieService;
 import org.example.model.service.MovieServiceImpl;
 import org.example.view.TestViewGJ;
@@ -27,9 +25,9 @@ public class MovieController {
         }
     }
 
-    public static void getMovieBasicInfo(int page) {
+    public static void getMovieBasicInfo(int page, int size) {
         try {
-            TestViewGJ.test2(movieService.getMovieBasicInfo(page));
+            TestViewGJ.test2(movieService.getMovieBasicInfo(page, size));
         } catch (Exception e) {
             e.printStackTrace();
         }

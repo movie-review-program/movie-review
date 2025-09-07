@@ -20,14 +20,7 @@ public interface UserDAO {
 	 */
 	boolean isEmailDuplicate(String email) throws SQLException;
 
-	/**
-	 * 회원 등록
-	 * 
-	 * @param user 가입할 User 객체
-	 * @return true = 등록 성공, false = 실패
-	 * @throws SQLException DB 오류
-	 */
-	boolean registerUser(User user) throws SQLException;
+	int registerUser(String email, String password, String name) throws SQLException;
 
 	/**
 	 * 이메일 + 비밀번호로 사용자 조회 (로그인용)

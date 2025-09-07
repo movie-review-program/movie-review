@@ -11,6 +11,7 @@ import java.util.List;
 
 /**
  * UserDAOImpl - UserDAO 인터페이스 구현체 - SQL을 직접 실행하여 DB와 통신
+ * TODO: setter -> 생성자로 변경
  */
 public class UserDAOImpl implements UserDAO {
 
@@ -28,13 +29,14 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	@Override
-	public boolean registerUser(User user) throws SQLException {
+	public int registerUser(String email, String password, String name) throws SQLException {
 		String sql = "INSERT INTO users (email, password, name) VALUES (?, ?, ?)";
-		try (Connection conn = dbManager.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
-			pstmt.setString(1, user.getEmail());
-			pstmt.setString(2, user.getPassword());
-			pstmt.setString(3, user.getName());
-			return pstmt.executeUpdate() > 0;
+		try (Connection conn = dbManager.getConnection();
+			 PreparedStatement pstmt = conn.prepareStatement(sql)) {
+			pstmt.setString(1, email);
+			pstmt.setString(2, password);
+			pstmt.setString(3, name);
+			return pstmt.executeUpdate();
 		}
 	}
 
@@ -46,13 +48,11 @@ public class UserDAOImpl implements UserDAO {
 			pstmt.setString(2, password);
 			try (ResultSet rs = pstmt.executeQuery()) {
 				if (rs.next()) {
-					User user = new User();
-					user.setUserNo(rs.getInt("user_no"));
-					user.setEmail(rs.getString("email"));
-					user.setPassword(rs.getString("password"));
-					user.setName(rs.getString("name"));
-					user.setJoinDate(rs.getTimestamp("join_date").toLocalDateTime());
-					return user;
+                    return new User(rs.getInt("user_no"),
+                            rs.getString("email"),
+                            rs.getString("password"),
+                            rs.getString("name"),
+                            rs.getTimestamp("join_date").toLocalDateTime());
 				}
 			}
 		}
@@ -66,13 +66,11 @@ public class UserDAOImpl implements UserDAO {
 			pstmt.setInt(1, userNo);
 			try (ResultSet rs = pstmt.executeQuery()) {
 				if (rs.next()) {
-					User user = new User();
-					user.setUserNo(rs.getInt("user_no"));
-					user.setEmail(rs.getString("email"));
-					user.setPassword(rs.getString("password"));
-					user.setName(rs.getString("name"));
-					user.setJoinDate(rs.getTimestamp("join_date").toLocalDateTime());
-					return user;
+					return new User(rs.getInt("user_no"),
+							rs.getString("email"),
+							rs.getString("password"),
+							rs.getString("name"),
+							rs.getTimestamp("join_date").toLocalDateTime());
 				}
 			}
 		}
@@ -121,12 +119,13 @@ public class UserDAOImpl implements UserDAO {
 			pstmt.setInt(1, followerNo);
 			try (ResultSet rs = pstmt.executeQuery()) {
 				while (rs.next()) {
-					User user = new User();
-					user.setUserNo(rs.getInt("user_no"));
-					user.setEmail(rs.getString("email"));
-					user.setName(rs.getString("name"));
-					user.setJoinDate(rs.getTimestamp("join_date").toLocalDateTime());
-					list.add(user);
+					list.add(new User(
+							rs.getInt("user_no"),
+							rs.getString("email"),
+							rs.getString("password"),
+							rs.getString("name"),
+							rs.getTimestamp("join_date").toLocalDateTime())
+					);
 				}
 			}
 		}
@@ -147,13 +146,15 @@ public class UserDAOImpl implements UserDAO {
 			pstmt.setInt(1, followerNo);
 			try (ResultSet rs = pstmt.executeQuery()) {
 				while (rs.next()) {
-					ReviewFeedDTO dto = new ReviewFeedDTO();
-					dto.setUserName(rs.getString("user_name"));
-					dto.setMovieName(rs.getString("movie_name"));
-					dto.setRating(rs.getInt("rating"));
-					dto.setLikeCount(rs.getInt("like_count"));
-					dto.setContent(rs.getString("content"));
-					dto.setRegDate(rs.getTimestamp("reg_date").toLocalDateTime());
+					ReviewFeedDTO dto = new ReviewFeedDTO(
+							rs.getString("user_name"),
+							rs.getString("movie_name"),
+							rs.getInt("rating"),
+							rs.getInt("like_count"),
+							rs.getString("content"),
+							rs.getTimestamp("reg_date").toLocalDateTime()
+					);
+
 					list.add(dto);
 				}
 			}

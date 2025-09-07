@@ -21,7 +21,7 @@ public interface MovieService {
     /**
      * 영화 기본 정보 제공: 영화 번호, 제목, 개봉년도, 감독, 장르, 평점
      * */
-    List<Movie> getMovieBasicInfo(int page) throws Exception;
+    List<Movie> getMovieBasicInfo(int page, int size) throws Exception;
 
     /**
      * 영화 상세 정보 제공

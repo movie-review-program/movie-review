@@ -18,7 +18,7 @@ import org.example.view.TestViewMJ;
 public class ReviewController {
 	private static ReviewService reviewService = ReviewServiceImpl.getInstance();
 	private static MovieService movieService = MovieServiceImpl.getInstance();
-	private static UserService userService = new UserServiceImpl();
+	private static UserService userService = UserServiceImpl.getInstance();
 	
 	/**
 	 * 리뷰 상세 보기 선택 시 호출
