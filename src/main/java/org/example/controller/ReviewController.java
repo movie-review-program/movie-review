@@ -108,15 +108,21 @@ public class ReviewController {
 
 	public static void createLike(int userNo, int reviewNo) {
 		try {
-			reviewService.insertLike(userNo, reviewNo);
+			if (reviewService.isLiking(userNo, reviewNo))
+				reviewService.deleteLike(userNo, reviewNo);
+			else
+				reviewService.insertLike(userNo, reviewNo);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
 	}
-
-	private static void deleteLike(int userNo, int reviewNo) {
+	
+	public static void isLiking(int userNo, int reviewNo) {
 		try {
-			reviewService.deleteLike(userNo, reviewNo);
+			if (reviewService.isLiking(userNo, reviewNo))
+				ReviewPageView.outputReviewLikeFoot();
+			else
+				ReviewPageView.outputReviewUnlikeFoot();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}

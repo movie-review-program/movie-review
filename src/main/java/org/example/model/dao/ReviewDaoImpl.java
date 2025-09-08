@@ -304,7 +304,7 @@ public class ReviewDaoImpl implements ReviewDao {
 			
 			result = ps.executeUpdate();
 		} catch (SQLException e) {
-			//e.printStackTrace();
+			e.printStackTrace();
 			// TODO 사용자정의 예외 처리
 		}
 		
@@ -350,5 +350,19 @@ public class ReviewDaoImpl implements ReviewDao {
 		}
 		
 		return count;
+	}
+
+	@Override
+	public boolean isLiking(int userNo, int reviewNo) throws Exception {
+		String sql = "select * from likes where user_no = ? and review_no = ?";
+		
+		try (Connection con = dbManager.getConnection();
+				PreparedStatement ps = con.prepareStatement(sql)) {
+			ps.setInt(1, userNo);
+			ps.setInt(2, reviewNo);
+			try (ResultSet rs = ps.executeQuery()) {
+				return rs.next();
+			}
+		}
 	}
 }

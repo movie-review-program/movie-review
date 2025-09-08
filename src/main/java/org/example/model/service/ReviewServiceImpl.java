@@ -82,4 +82,9 @@ public class ReviewServiceImpl implements ReviewService {
 		if (result == 0)
 			throw new Exception("해당 리뷰의 좋아요 취소를 실패했습니다.");
 	}
+
+	@Override
+	public boolean isLiking(int userNo, int reviewNo) throws Exception {
+		return reviewDao.isLiking(userNo, reviewNo);
+	}
 }

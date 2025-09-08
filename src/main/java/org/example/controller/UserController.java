@@ -8,6 +8,7 @@ import org.example.util.SessionManager;
 import org.example.util.SessionManagerImpl;
 import org.example.view.MainPageView;
 import org.example.view.MyPageView;
+import org.example.view.ReviewPageView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,12 +67,14 @@ public class UserController {
         return SessionManagerImpl.getInstance().getLoggedInUser();
     }
 
-    public static boolean followUser(int followerNo, int followingNo) {
+    public static void followUser(int followerNo, int followingNo) {
         try {
-            return userService.followUser(followerNo, followingNo);
+        	if (userService.isFollowing(followerNo, followingNo))
+        		userService.unfollowUser(followerNo, followingNo);
+        	else 
+        		userService.followUser(followerNo, followingNo);
         } catch (Exception e) {
             System.out.println("팔로우 실패: " + e.getMessage());
-            return false;
         }
     }
 
@@ -84,12 +87,14 @@ public class UserController {
         }
     }
 
-    public boolean isFollowing(int followerNo, int followingNo) {
+    public static void isFollowing(int followerNo, int followingNo) {
         try {
-            return userService.isFollowing(followerNo, followingNo);
+            if (userService.isFollowing(followerNo, followingNo))
+            	ReviewPageView.outputReviewFollowFoot();
+            else 
+            	ReviewPageView.outputReviewUnfollowFoot();
         } catch (Exception e) {
             System.out.println("팔로우 여부 확인 실패: " + e.getMessage());
-            return false;
         }
     }
 
