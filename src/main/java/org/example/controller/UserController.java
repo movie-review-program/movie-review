@@ -4,7 +4,10 @@ import org.example.model.dto.User;
 import org.example.model.dto.ReviewFeedDTO;
 import org.example.model.service.UserService;
 import org.example.model.service.UserServiceImpl;
+import org.example.util.SessionManager;
 import org.example.util.SessionManagerImpl;
+import org.example.view.MainPageView;
+import org.example.view.MyPageView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,56 +18,55 @@ import java.util.List;
  * - 로그인/로그아웃 시 세션(SessionManagerImpl) 관리까지 포함
  */
 public class UserController {
+    private static UserService userService = UserServiceImpl.getInstance();
+    private static SessionManager sm = SessionManagerImpl.getInstance();
 
-    private UserService userService = new UserServiceImpl();
-
-    // ===== 로그인 / 회원가입 / 로그아웃 / 세션 =====
-    public User login(String email, String password) {
+    public static void login(String email, String password) {
         try {
             User user = userService.login(email, password);
-            if (user != null) {
-                SessionManagerImpl.getInstance().setLoggedInUser(user); // ✅ 세션 저장
-            }
-            return user;
+            sm.setLoggedInUser(user);
+            MainPageView.menu(user);
         } catch (Exception e) {
             System.out.println("로그인 실패: " + e.getMessage());
-            return null;
         }
     }
 
-    public User registerAndLogin(User user) {
+    public static void registerAndLogin(String email, String password, String name) {
         try {
-            User registered = userService.registerAndLogin(user);
-            if (registered != null) {
-                SessionManagerImpl.getInstance().setLoggedInUser(registered); // ✅ 세션 저장
-            }
-            return registered;
+            User user = userService.registerAndLogin(email, password, name);
+            sm.setLoggedInUser(user);
+            MainPageView.menu(user);
         } catch (Exception e) {
             System.out.println("회원가입 실패: " + e.getMessage());
-            return null;
         }
     }
 
-    public void logout() {
-        SessionManagerImpl.getInstance().logout(); // ✅ 세션 초기화
+    public static void getUserByUserNo(int userNo) {
+        try {
+            MyPageView.outputMovieInfo(userService.getUserByUserNo(userNo));
+        } catch (Exception e) {
+            System.out.println("사용자 조회 실패: " + e.getMessage());
+        }
+    }
+
+    public static void getFallowersInfo(int userNo, int page, int size) {
+        try {
+            MyPageView.outputFallowsInfo(userService.getFallowersInfo(userNo, page, size));
+        } catch (Exception e) {
+            System.out.println("팔로워 정보를 찾아올 수 없습니다.: " + e.getMessage());
+        }
+    }
+
+
+    public static void logout() {
+        SessionManagerImpl.getInstance().logout();
     }
 
     public User getCurrentUser() {
         return SessionManagerImpl.getInstance().getLoggedInUser();
     }
 
-    // ===== 사용자 조회 =====
-    public User getUserByUserNo(int userNo) {
-        try {
-            return userService.getUserByUserNo(userNo);
-        } catch (Exception e) {
-            System.out.println("사용자 조회 실패: " + e.getMessage());
-            return null;
-        }
-    }
-
-    // ===== 팔로우 관련 =====
-    public boolean followUser(int followerNo, int followingNo) {
+    public static boolean followUser(int followerNo, int followingNo) {
         try {
             return userService.followUser(followerNo, followingNo);
         } catch (Exception e) {
@@ -73,7 +75,7 @@ public class UserController {
         }
     }
 
-    public boolean unfollowUser(int followerNo, int followingNo) {
+    public static boolean unfollowUser(int followerNo, int followingNo) {
         try {
             return userService.unfollowUser(followerNo, followingNo);
         } catch (Exception e) {
@@ -91,7 +93,7 @@ public class UserController {
         }
     }
 
-    public List<User> getFollowingList(int followerNo) {
+    public static List<User> getFollowingList(int followerNo) {
         try {
             return userService.getFollowingList(followerNo);
         } catch (Exception e) {
@@ -100,8 +102,7 @@ public class UserController {
         }
     }
 
-    // ===== 팔로잉 리뷰 조회 =====
-    public List<ReviewFeedDTO> getFollowingReviews(int followerNo) {
+    public static List<ReviewFeedDTO> getFollowingReviews(int followerNo) {
         try {
             return userService.getFollowingReviews(followerNo);
         } catch (Exception e) {

@@ -11,8 +11,35 @@ public class User {
 	private String password;
 	private String name;
 	private LocalDateTime joinDate;
-	private int reviewCount;
-	private int followerCount;
+	private int reviewCnt;
+	private int followerCnt;
+	private int followingCnt;
+
+	public User(String email, String password, String name) {
+		this.email = email;
+		this.password = password;
+		this.name = name;
+	}
+
+	public User(int userNo, String email, String password, String name, LocalDateTime joinDate) {
+		this.userNo = userNo;
+		this.email = email;
+		this.password = password;
+		this.name = name;
+		this.joinDate = joinDate;
+	}
+
+	public User(int userNo, String email, String password, String name, LocalDateTime joinDate, int reviewCnt,
+			int followerCnt, int followingCnt) {
+		this.userNo = userNo;
+		this.email = email;
+		this.password = password;
+		this.name = name;
+		this.joinDate = joinDate;
+		this.reviewCnt = reviewCnt;
+		this.followerCnt = followerCnt;
+		this.followingCnt = followingCnt;
+	}
 
 	public int getUserNo() {
 		return userNo;
@@ -54,19 +81,15 @@ public class User {
 		this.joinDate = joinDate;
 	}
 
-	public int getReviewCount() {
-		return reviewCount;
+	public int getReviewCnt() {
+		return reviewCnt;
 	}
 
-	public void setReviewCount(int reviewCount) {
-		this.reviewCount = reviewCount;
+	public int getFollowerCnt() {
+		return followerCnt;
 	}
 
-	public int getFollowerCount() {
-		return followerCount;
-	}
-
-	public void setFollowerCount(int followerCount) {
-		this.followerCount = followerCount;
+	public int getFollowingCnt() {
+		return followingCnt;
 	}
 }

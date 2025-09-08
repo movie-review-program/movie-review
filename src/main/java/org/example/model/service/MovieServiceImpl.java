@@ -10,8 +10,6 @@ import org.example.infra.movie.KmdbResponseDTO;
 import org.example.infra.movie.KobisDailyResponseDTO;
 import org.example.infra.movie.KobisDetailResponseDTO;
 import org.example.infra.movie.MovieClient;
-import org.example.model.dao.ReviewDao;
-import org.example.model.dao.ReviewDaoImpl;
 import org.example.model.dto.Genre;
 import org.example.model.dto.Movie;
 
@@ -62,9 +60,9 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public List<Movie> getMovieBasicInfo(int page) throws Exception {
-        List<Movie> movies = dao.selectMovieBasicPage(page, 5);
-        if (movies.size() != 5)
+    public List<Movie> getMovieBasicInfo(int page, int size) throws Exception {
+        List<Movie> movies = dao.selectMovieBasicPage(page, size);
+        if (movies.size() != size)
             throw new SQLException("페이징된 정보 5개를 가져오지 못했습니다.");
         return movies;
     }

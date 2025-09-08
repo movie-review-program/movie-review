@@ -1,5 +1,6 @@
 package org.example.model.dao;
 
+import org.example.model.dto.Movie;
 import org.example.model.dto.User;
 import org.example.model.dto.ReviewFeedDTO;
 import java.sql.SQLException;
@@ -20,14 +21,7 @@ public interface UserDAO {
 	 */
 	boolean isEmailDuplicate(String email) throws SQLException;
 
-	/**
-	 * 회원 등록
-	 * 
-	 * @param user 가입할 User 객체
-	 * @return true = 등록 성공, false = 실패
-	 * @throws SQLException DB 오류
-	 */
-	boolean registerUser(User user) throws SQLException;
+	int registerUser(String email, String password, String name) throws SQLException;
 
 	/**
 	 * 이메일 + 비밀번호로 사용자 조회 (로그인용)
@@ -46,7 +40,9 @@ public interface UserDAO {
 	 * @return User 객체
 	 * @throws SQLException DB 오류
 	 */
-	User selectUserByUserNo(int userNo) throws SQLException;
+	User selectUserByUserNo(int userNo) throws Exception;
+
+	List<User> selectFollowers(int userNo, int page, int size) throws Exception;
 
 	/**
 	 * 팔로우 하기

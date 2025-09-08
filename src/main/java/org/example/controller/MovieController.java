@@ -1,12 +1,12 @@
 package org.example.controller;
 
 import java.sql.SQLException;
-import java.util.List;
 
-import org.example.model.dto.Movie;
+import org.example.model.dto.User;
 import org.example.model.service.MovieService;
 import org.example.model.service.MovieServiceImpl;
-import org.example.view.TestViewGJ;
+import org.example.view.MoviePageView;
+import org.example.view.ReviewPageView;
 
 public class MovieController {
     private static MovieService movieService = MovieServiceImpl.getInstance();
@@ -19,17 +19,18 @@ public class MovieController {
         }
     }
 
-    public static void getMovieByMovieName(String movieName) {
+    //TODO: 위치 고려
+    public static void createReviewByMovieName(User user, String movieName) {
         try {
-            TestViewGJ.test1(movieService.getMovieByMovieName(movieName));
+            ReviewPageView.createReview(user, movieService.getMovieByMovieName(movieName));
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public static void getMovieBasicInfo(int page) {
+    public static void getMovieBasicInfo(int page, int size) {
         try {
-            TestViewGJ.test2(movieService.getMovieBasicInfo(page));
+            MoviePageView.outputMovieBasicInfo(movieService.getMovieBasicInfo(page, size));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -37,7 +38,8 @@ public class MovieController {
 
     public static void getMovieDetailInfo(int movieNo) {
         try {
-            TestViewGJ.test3(movieService.getMovieDetailInfo(movieNo));
+            MoviePageView.outputMovieDetailInfo(
+                    movieService.getMovieDetailInfo(movieNo));
         } catch (Exception e) {
             e.printStackTrace();
         }

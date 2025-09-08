@@ -13,6 +13,19 @@ public class ReviewFeedDTO {
 	private String content;
 	private LocalDateTime regDate;
 
+	ReviewFeedDTO() {
+	}
+
+	public ReviewFeedDTO(String userName, String movieName, int rating, int likeCount, String content,
+			LocalDateTime regDate) {
+		this.userName = userName;
+		this.movieName = movieName;
+		this.rating = rating;
+		this.likeCount = likeCount;
+		this.content = content;
+		this.regDate = regDate;
+	}
+
 	public String getUserName() {
 		return userName;
 	}
