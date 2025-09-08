@@ -63,9 +63,6 @@ public class ReviewPageView {
                                 menu(user, type, no);
                             }
                         } else {
-                            //TODO: 팔로우 언팔로우 나누기, 좋아요 하기/취소 나누기
-                            //할꺼면 controller(2개)에 먼저 보내서 확인하고 그에 맞는 view로 올려야 함
-                            //view는 4개
                         	ReviewController.isLiking(user.getUserNo(), objectreview.getReviewNo());
                         	UserController.isFollowing(user.getUserNo(), objectuser.getUserNo());
                             outputReviewFoot();

@@ -120,9 +120,9 @@ public class ReviewController {
 	public static void isLiking(int userNo, int reviewNo) {
 		try {
 			if (reviewService.isLiking(userNo, reviewNo))
-				ReviewPageView.outputReviewLikeFoot();
-			else
 				ReviewPageView.outputReviewUnlikeFoot();
+			else
+				ReviewPageView.outputReviewLikeFoot();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}

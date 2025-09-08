@@ -90,9 +90,9 @@ public class UserController {
     public static void isFollowing(int followerNo, int followingNo) {
         try {
             if (userService.isFollowing(followerNo, followingNo))
-            	ReviewPageView.outputReviewFollowFoot();
-            else 
             	ReviewPageView.outputReviewUnfollowFoot();
+            else 
+            	ReviewPageView.outputReviewFollowFoot();
         } catch (Exception e) {
             System.out.println("팔로우 여부 확인 실패: " + e.getMessage());
         }
