@@ -99,4 +99,13 @@ public interface ReviewDao {
 	 * @throws Exception
 	 */
 	int getLikeCount(int reviewNo) throws Exception;
+	
+	/**
+	 * 사용자가 현재 리뷰를 좋아요 하고 있는지 확인
+	 * @param userNo
+	 * @param reviewNo
+	 * @return
+	 * @throws Exception
+	 */
+	boolean isLiking(int userNo, int reviewNo) throws Exception;
 }

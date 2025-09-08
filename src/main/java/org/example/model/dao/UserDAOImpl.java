@@ -171,7 +171,7 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	public boolean isFollowing(int followerNo, int followingNo) throws Exception {
-		String sql = "SELECT 1 FROM follows WHERE follower_no=? AND following_no=? LIMIT 1";
+		String sql = "SELECT * FROM follows WHERE follower_no=? AND following_no=?";
 		try (Connection conn = dbManager.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
 			pstmt.setInt(1, followerNo);
 			pstmt.setInt(2, followingNo);

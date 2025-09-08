@@ -42,4 +42,9 @@ public interface ReviewService {
 	 * 좋아요 삭제(취소)
 	 */
 	void deleteLike(int userNo, int reviewNo) throws Exception;
+	
+	/**
+	 * 사용자가 현재 리뷰를 좋아요 했는지 확인
+	 */
+	boolean isLiking(int userNo, int reviewNo) throws Exception;
 }
