@@ -139,17 +139,17 @@ public class MoviePageView {
         moviesStorage = new ArrayList<>();
         for (int i = 0; i < movies.size(); i++) {
             int num = (page - 1) * size;
-            System.out.printf("│  [%d] %s (%d)%15s│%n",
+            System.out.printf("│  [%d] %s (%d)%15s%n",
                     num + i + 1,
                     movies.get(i).getMovieName(),
                     movies.get(i).getOpenDate().getYear(),
                     ""
             );
-            System.out.printf("│      감독: %s %15s│%n",
+            System.out.printf("│      감독: %s %15s%n",
                     movies.get(i).getDirector(),
                     ""
             );
-            System.out.printf("│      ⭐ %.1f (리뷰 %d개)%15s│%n",
+            System.out.printf("│      ⭐ %.1f (리뷰 %d개)%15s%n",
                     movies.get(i).getRatings(),
                     movies.get(i).getReviewCnt(), "");
             moviesStorage.add(movies.get(i));
@@ -191,11 +191,11 @@ public class MoviePageView {
 
 
     public static void outputMovieDetailInfo(Movie movie) {
-        System.out.printf("│    제목: %s %35s│%n",
+        System.out.printf("│    제목: %s %35s%n",
                 movie.getMovieName(),
                 ""
         );
-        System.out.printf("│    감독: %s %35s│%n",
+        System.out.printf("│    감독: %s %35s%n",
                 movie.getDirector(),
                 ""
         );
@@ -203,7 +203,7 @@ public class MoviePageView {
         for (Genre genre : movie.getGenreDTOS()) {
             genres.append(genre.getGenreName());
         }
-        System.out.printf("│    장르: %s %35s│%n",
+        System.out.printf("│    장르: %s %35s%n",
                 genres,
                 ""
         );
@@ -219,7 +219,7 @@ public class MoviePageView {
         }
         System.out.println("├──────────────────────────────────────────────────┤");
 
-        System.out.printf("│      ⭐ %.1f (리뷰 %d개)%15s│%n",
+        System.out.printf("│      ⭐ %.1f (리뷰 %d개)%15s%n",
                 movie.getRatings(),
                 movie.getReviewCnt(), "");
     }

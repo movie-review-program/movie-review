@@ -111,29 +111,29 @@ public class MyPageView {
     }
 
     public static void outputMovieInfo(User user) {
-        System.out.printf("│    사용자명: %s %35s│%n",
+        System.out.printf("│    사용자명: %s %35s%n",
                 user.getName(),
                 ""
         );
-        System.out.printf("│    이메일: %s %35s│%n",
+        System.out.printf("│    이메일: %s %35s%n",
                 user.getEmail(),
                 ""
         );
-        System.out.printf("│    가입일: %s %35s│%n",
+        System.out.printf("│    가입일: %s %35s%n",
                 user.getJoinDate().toLocalDate(),
                 ""
         );
 
         System.out.println("│    활동 통계");
-        System.out.printf("│      작성 리뷰: %s %35s│%n",
+        System.out.printf("│      작성 리뷰: %s %35s%n",
                 user.getReviewCnt(),
                 ""
         );
-        System.out.printf("│      팔로잉: %s %33s│%n",
+        System.out.printf("│      팔로잉: %s %33s%n",
                 user.getFollowingCnt(),
                 ""
         );
-        System.out.printf("│      팔로워: %s %33s│%n",
+        System.out.printf("│      팔로워: %s %33s%n",
                 user.getFollowerCnt(),
                 ""
         );
@@ -161,12 +161,12 @@ public class MyPageView {
         usersStorge = new ArrayList<>();
         for (int i = 0; i < users.size(); i++) {
             int num = (page - 1) * size;
-            System.out.printf("│  [%d] %s%15s│%n",
+            System.out.printf("│  [%d] %s%15s%n",
                     num + i + 1,
                     users.get(i).getName(),
                     ""
             );
-            System.out.printf("│    리뷰: %d  │  팔로워: %d%15s│%n",
+            System.out.printf("│    리뷰: %d  │  팔로워: %d%15s%n",
                     users.get(i).getReviewCnt(),
                     users.get(i).getFollowerCnt(),
                     ""
