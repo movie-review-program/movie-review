@@ -7,6 +7,7 @@ import org.example.model.service.UserServiceImpl;
 import org.example.util.SessionManager;
 import org.example.util.SessionManagerImpl;
 import org.example.view.MainPageView;
+import org.example.view.MyPageView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +41,22 @@ public class UserController {
         }
     }
 
+    public static void getUserByUserNo(int userNo) {
+        try {
+            MyPageView.outputMovieInfo(userService.getUserByUserNo(userNo));
+        } catch (Exception e) {
+            System.out.println("사용자 조회 실패: " + e.getMessage());
+        }
+    }
+
+    public static void getFallowersInfo(int userNo, int page, int size) {
+        try {
+            MyPageView.outputFallowsInfo(userService.getFallowersInfo(userNo, page, size));
+        } catch (Exception e) {
+            System.out.println("팔로워 정보를 찾아올 수 없습니다.: " + e.getMessage());
+        }
+    }
+
 
     public static void logout() {
         SessionManagerImpl.getInstance().logout();
@@ -47,15 +64,6 @@ public class UserController {
 
     public User getCurrentUser() {
         return SessionManagerImpl.getInstance().getLoggedInUser();
-    }
-
-    public static User getUserByUserNo(int userNo) {
-        try {
-            return userService.getUserByUserNo(userNo);
-        } catch (Exception e) {
-            System.out.println("사용자 조회 실패: " + e.getMessage());
-            return null;
-        }
     }
 
     public static boolean followUser(int followerNo, int followingNo) {

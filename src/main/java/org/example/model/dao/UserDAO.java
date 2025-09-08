@@ -1,5 +1,6 @@
 package org.example.model.dao;
 
+import org.example.model.dto.Movie;
 import org.example.model.dto.User;
 import org.example.model.dto.ReviewFeedDTO;
 import java.sql.SQLException;
@@ -39,7 +40,9 @@ public interface UserDAO {
 	 * @return User 객체
 	 * @throws SQLException DB 오류
 	 */
-	User selectUserByUserNo(int userNo) throws SQLException;
+	User selectUserByUserNo(int userNo) throws Exception;
+
+	List<User> selectFollowers(int userNo, int page, int size) throws Exception;
 
 	/**
 	 * 팔로우 하기

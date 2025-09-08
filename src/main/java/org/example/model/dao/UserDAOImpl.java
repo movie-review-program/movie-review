@@ -1,5 +1,6 @@
 package org.example.model.dao;
 
+import org.example.model.dto.Movie;
 import org.example.model.dto.User;
 import org.example.model.dto.ReviewFeedDTO;
 import org.example.util.DBManager;
@@ -14,8 +15,8 @@ import java.util.List;
  * TODO: setter -> 생성자로 변경
  */
 public class UserDAOImpl implements UserDAO {
-
 	private DBManager dbManager = new DBManagerImpl();
+	ReviewDao reviewDao = ReviewDaoImpl.getInstance();
 
 	@Override
 	public boolean isEmailDuplicate(String email) throws SQLException {
@@ -48,7 +49,7 @@ public class UserDAOImpl implements UserDAO {
 			pstmt.setString(2, password);
 			try (ResultSet rs = pstmt.executeQuery()) {
 				if (rs.next()) {
-                    return new User(rs.getInt("user_no"),
+					return new User(rs.getInt("user_no"),
                             rs.getString("email"),
                             rs.getString("password"),
                             rs.getString("name"),
@@ -60,21 +61,92 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	@Override
-	public User selectUserByUserNo(int userNo) throws SQLException {
+	public User selectUserByUserNo(int userNo) throws Exception {
 		String sql = "SELECT user_no, email, password, name, join_date FROM users WHERE user_no=?";
 		try (Connection conn = dbManager.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
 			pstmt.setInt(1, userNo);
 			try (ResultSet rs = pstmt.executeQuery()) {
 				if (rs.next()) {
+					int followers = selectUserFollower(rs.getInt("user_no"));
+					int followings = selectUserFollowing(rs.getInt("user_no"));
+					int reviews = reviewDao.getReviewCount(rs.getInt("user_no"));
+
 					return new User(rs.getInt("user_no"),
 							rs.getString("email"),
 							rs.getString("password"),
 							rs.getString("name"),
-							rs.getTimestamp("join_date").toLocalDateTime());
+							rs.getTimestamp("join_date").toLocalDateTime(),
+							reviews,
+							followers,
+							followings
+					);
 				}
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public List<User> selectFollowers(int userNo, int page, int size) throws Exception {
+		List<User> users = new ArrayList<>();
+		String sql = """
+                select *
+                from follows
+                where following_no = ?
+                order by follow_no desc
+                limit ? offset ?
+                """;
+
+		int offset = (page - 1) * size;
+		try(Connection con = dbManager.getConnection();
+			PreparedStatement ps = con.prepareStatement(sql)) {
+			ps.setInt(1, userNo);
+			ps.setInt(2, size);
+			ps.setInt(3, offset);
+
+			try (ResultSet rs = ps.executeQuery()) {
+				while (rs.next()) {
+					int fallowerNo = rs.getInt("follower_no");
+					users.add(selectUserByUserNo(fallowerNo));
+				}
+			}
+		}
+
+		return users;
+	}
+
+	public int selectUserFollower(int userNo) throws SQLException {
+		String sql = """
+				select count(*) from follows where following_no = ?
+				""";
+		try(Connection con = dbManager.getConnection();
+		PreparedStatement ps = con.prepareStatement(sql)) {
+			ps.setInt(1, userNo);
+
+			try(ResultSet rs = ps.executeQuery()) {
+				if (rs.next()) {
+					return rs.getInt(1);
+				}
+			}
+		}
+		return 0;
+	}
+
+	public int selectUserFollowing(int userNo) throws SQLException {
+		String sql = """
+				select count(*) from follows where follower_no = ?
+				""";
+		try(Connection con = dbManager.getConnection();
+			PreparedStatement ps = con.prepareStatement(sql)) {
+			ps.setInt(1, userNo);
+
+			try(ResultSet rs = ps.executeQuery()) {
+				if (rs.next()) {
+					return rs.getInt(1);
+				}
+			}
+		}
+		return 0;
 	}
 
 	@Override
@@ -112,7 +184,7 @@ public class UserDAOImpl implements UserDAO {
 	@Override
 	public List<User> getFollowingList(int followerNo) throws Exception {
 		List<User> list = new ArrayList<>();
-		String sql = "SELECT u.user_no, u.email, u.name, u.join_date "
+		String sql = "SELECT u.user_no, u.email, u.password, u.name, u.join_date "
 				+ "FROM follows f JOIN users u ON f.following_no = u.user_no " + "WHERE f.follower_no = ?";
 
 		try (Connection conn = dbManager.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {

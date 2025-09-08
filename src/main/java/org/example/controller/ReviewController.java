@@ -13,7 +13,7 @@ import org.example.model.service.ReviewService;
 import org.example.model.service.ReviewServiceImpl;
 import org.example.model.service.UserService;
 import org.example.model.service.UserServiceImpl;
-import org.example.view.TestViewMJ;
+import org.example.view.ReviewPageView;
 
 public class ReviewController {
 	private static ReviewService reviewService = ReviewServiceImpl.getInstance();
@@ -32,7 +32,7 @@ public class ReviewController {
 			Movie movie = movieService.getMovieDetailInfo(review.getMovieNo());
 			String userName = userService.getUserByUserNo(userNo).getName();
 			
-			TestViewMJ.printReview(userName, review, movie);
+			ReviewPageView.printReview(userName, review, movie);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -51,20 +51,20 @@ public class ReviewController {
 			List<Review> reviews = reviewService.getReviewsPage(type, no, page);
 			
 			// 유저, 영화, 리뷰를 담는 이중 리스트
-			List<List<Object>> infos = new ArrayList<List<Object>>();
+			List<List<Object>> infos = new ArrayList<>();
 			
 			for (Review review : reviews) {
 				Movie movie = movieService.getMovieDetailInfo(review.getMovieNo());
 				User user = userService.getUserByUserNo(review.getUserNo());
 	            
-	            List<Object> info = new ArrayList<Object>();
+	            List<Object> info = new ArrayList<>();
 	            info.add(user);
 	            info.add(movie);
 	            info.add(review);
 	            infos.add(info);
 	        }
 	        
-			TestViewMJ.printReviewsPreview(type, infos);
+			ReviewPageView.printReviewsPreview(type, infos);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -76,7 +76,6 @@ public class ReviewController {
 	public static void insertReview(Review review) {
 		try {
 			reviewService.insertReview(review);
-			TestViewMJ.printMyReview(review);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			//FailView.errorMessage(e.getMessage());
@@ -102,6 +101,22 @@ public class ReviewController {
 		try {
 			reviewService.deleteReview(reviewNo);
 			
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+
+	public static void createLike(int userNo, int reviewNo) {
+		try {
+			reviewService.insertLike(userNo, reviewNo);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+
+	private static void deleteLike(int userNo, int reviewNo) {
+		try {
+			reviewService.deleteLike(userNo, reviewNo);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}

@@ -46,6 +46,8 @@ public interface ReviewDao {
 	 * @throws Exception
 	 */
 	int getReviewCount(int movieNo) throws Exception;
+
+	int getReviewCountByUserNo(int userNo) throws Exception;
 	
 	/**
 	 * 해당 영화의 평균 별점(평점)을 조회

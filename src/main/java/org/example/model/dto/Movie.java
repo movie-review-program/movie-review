@@ -99,6 +99,14 @@ public class Movie {
         return genreDTOS;
     }
 
+    public double getRatings() {
+        return ratings;
+    }
+
+    public int getReviewCnt() {
+        return reviewCnt;
+    }
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("Movie{");

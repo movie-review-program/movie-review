@@ -185,6 +185,28 @@ public class ReviewDaoImpl implements ReviewDao {
 		
 		return count;
 	}
+
+	@Override
+	public int getReviewCountByUserNo(int userNo) throws Exception{
+		int count = 0;
+		String sql = "select count(*) from reviews where user_no = ?";
+
+		try (Connection con = dbManager.getConnection();
+			 PreparedStatement ps = con.prepareStatement(sql);) {
+			ps.setInt(1, userNo);
+
+			try (ResultSet rs = ps.executeQuery();) {
+				if (rs.next()) {
+					count = rs.getInt(1);
+				}
+			}
+		} catch (SQLException e) {
+			//e.printStackTrace();
+			// TODO 사용자정의 예외 처리
+		}
+
+		return count;
+	}
 	
 	@Override
 	public double getAverageRating(int movieNo) throws Exception {
@@ -233,13 +255,14 @@ public class ReviewDaoImpl implements ReviewDao {
 	@Override
 	public int updateReview(Review review) throws Exception {
 		int result = 0;
-		String sql = "update reviews set rating = ?, content = ? where review_no = ?";
+		String sql = "update reviews set rating = ?, content = ? where user_no = ? and movie_no = ?";
 		
 		try (Connection con = dbManager.getConnection();
 				PreparedStatement ps = con.prepareStatement(sql);) {
 			ps.setInt(1, review.getRating());
 			ps.setString(2, review.getContent());
-			ps.setInt(3, review.getReviewNo());
+			ps.setInt(3, review.getUserNo());
+			ps.setInt(4, review.getMovieNo());
 			
 			result = ps.executeUpdate();
 		} catch (SQLException e) {

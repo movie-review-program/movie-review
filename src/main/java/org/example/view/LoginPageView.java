@@ -41,12 +41,11 @@ public class LoginPageView {
 
     private static int LoginV() {
         outputLoginV();
-        int num = choiceNumber();
-        return num;
+        return choiceNumber();
     }
 
     /**
-     * @param:  email, password
+     *  email, password
      * */
     private static void login() {
         outputLogin();
@@ -56,7 +55,7 @@ public class LoginPageView {
     }
 
     /**
-     * @param:  email, password, name
+     * email, password, name
      * */
     private static void signUp() {
         outputJoin();

@@ -45,6 +45,13 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	public List<User> getFallowersInfo(int userNo, int page, int size) throws Exception {
+		List<User> users = dao.selectFollowers(userNo, page, size);
+		if(users.isEmpty())throw new Exception("데이터를 올바르게 전달하지 못했습니다");
+		return users;
+	}
+
+	@Override
 	public boolean followUser(int followerNo, int followingNo) throws Exception {
 		if (followerNo == followingNo) {
 			throw new Exception("자기 자신은 팔로우할 수 없습니다.");

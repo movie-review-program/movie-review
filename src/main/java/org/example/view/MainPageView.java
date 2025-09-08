@@ -1,6 +1,9 @@
 package org.example.view;
 
 import java.util.Scanner;
+
+import org.example.common.ReviewContext;
+import org.example.controller.UserController;
 import org.example.model.dto.User;
 
 public class MainPageView {
@@ -21,8 +24,10 @@ public class MainPageView {
                         switch (num) {
                             case 1:
                                 MoviePageView.menu(user);
+                                return;
                             case 2:
                                 LoginPageView.menu();
+                                return;
                             default:
                                 System.out.println("잘못 입력하셨습니다. 다시 입력해주세요.");
                         }
@@ -34,14 +39,20 @@ public class MainPageView {
                     switch (num) {
                         case 1:
                             MoviePageView.menu(user);
+                            return;
                         case 2:
-                            break;
+                            ReviewPageView.searchReview(user);
+                            return;
                         case 3:
-                            break;
+                            ReviewPageView.menu(user, ReviewContext.FOLLOW, user.getUserNo());
+                            return;
                         case 4:
                             MyPageView.menu(user);
+                            break;
                         case 5:
+                            UserController.logout();
                             LoginPageView.menu();
+                            return;
                         default:
                             System.out.println("잘못 입력하셨습니다. 다시 입력해주세요.");
                     }
