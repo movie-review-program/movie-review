@@ -21,13 +21,13 @@ public class LoginPageView {
                 switch (num) {
                     case 1:
                         login();
-                        break;
+                        return;
                     case 2:
                         signUp();
-                        break;
+                        return;
                     case 3:
                         mainPage();
-                        break;
+                        return;
                     case 4:
                         System.exit(0);
                     default:

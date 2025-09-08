@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 import org.example.common.ReviewContext;
 import org.example.controller.MovieController;
+import org.example.model.dao.ReviewDao;
 import org.example.model.dto.Genre;
 import org.example.model.dto.Movie;
 import org.example.model.dto.User;
@@ -33,6 +34,7 @@ public class MoviePageView {
                                 menu(user);
                                 return;
                             case 2:
+                                page = 1;
                                 LoginPageView.menu();
                                 return;
                             default:
@@ -104,10 +106,10 @@ public class MoviePageView {
                     case 1:
                         ReviewPageView.createReview(user, movie);
                         movieInfo(user);
-                        break;
+                        return;
                     case 2:
                         ReviewPageView.menu(user, ReviewContext.MOVIE, movie.getMovieNo());
-                        break;
+                        return;
                     case 3:
                         menu(user);
                         return;

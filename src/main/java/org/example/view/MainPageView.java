@@ -48,7 +48,7 @@ public class MainPageView {
                             return;
                         case 4:
                             MyPageView.menu(user);
-                            break;
+                            return;
                         case 5:
                             UserController.logout();
                             LoginPageView.menu();

@@ -78,12 +78,11 @@ public class UserController {
         }
     }
 
-    public static boolean unfollowUser(int followerNo, int followingNo) {
+    public static void unfollowUser(int followerNo, int followingNo) {
         try {
-            return userService.unfollowUser(followerNo, followingNo);
+            userService.unfollowUser(followerNo, followingNo);
         } catch (Exception e) {
             System.out.println("언팔로우 실패: " + e.getMessage());
-            return false;
         }
     }
 

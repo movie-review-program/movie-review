@@ -80,8 +80,8 @@ public class MyPageView {
                         int c = choiceNumber();
                         int findId = c - ((page - 1) * size);
                         UserController.unfollowUser(
-                                usersStorge.get(findId).getUserNo(),
-                                user.getUserNo()
+                                user.getUserNo(),
+                                usersStorge.get(findId).getUserNo()
                         );
                         myPageFollowsInfo(user);
                         page = 1;
