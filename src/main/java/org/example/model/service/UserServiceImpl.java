@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<User> getFallowersInfo(int userNo, int page, int size) throws Exception {
+	public List<User> getFollowersInfo(int userNo, int page, int size) throws Exception {
 		List<User> users = dao.selectFollowers(userNo, page, size);
 		if(users.isEmpty())throw new Exception("데이터를 올바르게 전달하지 못했습니다");
 		return users;

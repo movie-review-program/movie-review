@@ -50,9 +50,9 @@ public class UserController {
         }
     }
 
-    public static void getFallowersInfo(int userNo, int page, int size) {
+    public static void getFollowersInfo(int userNo, int page, int size) {
         try {
-            MyPageView.outputFallowsInfo(userService.getFallowersInfo(userNo, page, size));
+            MyPageView.outputFollowsInfo(userService.getFollowersInfo(userNo, page, size));
         } catch (Exception e) {
             System.out.println("팔로워 정보를 찾아올 수 없습니다.: " + e.getMessage());
         }

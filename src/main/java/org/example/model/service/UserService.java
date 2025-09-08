@@ -18,7 +18,7 @@ public interface UserService {
 
     User getUserByUserNo(int userNo) throws Exception;
 
-    List<User> getFallowersInfo(int userNo, int page, int size) throws Exception;
+    List<User> getFollowersInfo(int userNo, int page, int size) throws Exception;
 
     boolean followUser(int followerNo, int followingNo) throws Exception;
 
