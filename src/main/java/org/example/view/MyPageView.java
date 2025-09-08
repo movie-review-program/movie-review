@@ -34,7 +34,7 @@ public class MyPageView {
                         ReviewPageView.menu(user, ReviewContext.USER, user.getUserNo());
                         return;
                     case 2:
-                        myPageFallowsInfo(user);
+                        myPageFollowsInfo(user);
                         return;
                     case 3:
                         ReviewPageView.menu(user, ReviewContext.LIKE, user.getUserNo());
@@ -63,32 +63,32 @@ public class MyPageView {
      * 2. 다음으로
      * 3. 뒤로
      * */
-    static void myPageFallowsInfo(User user) {
+    static void myPageFollowsInfo(User user) {
 
-        outputFallowsInfoHead();
-        UserController.getFallowersInfo(user.getUserNo(), page, size);
-        outputFallowsInfoFoot();
+        outputFollowsInfoHead();
+        UserController.getFollowersInfo(user.getUserNo(), page, size);
+        outputFollowsInfoFoot();
 
         while (true) {
             try {
                 int num = choiceNumber();
                 switch (num) {
                     case 1:
-                        outputFallowsInfoHead();
-                        UserController.getFallowersInfo(user.getUserNo(), page, size);
-                        outputDeleteFallows();
+                        outputFollowsInfoHead();
+                        UserController.getFollowersInfo(user.getUserNo(), page, size);
+                        outputDeleteFollows();
                         int c = choiceNumber();
                         int findId = c - ((page - 1) * size);
                         UserController.unfollowUser(
                                 usersStorge.get(findId).getUserNo(),
                                 user.getUserNo()
                         );
-                        myPageFallowsInfo(user);
+                        myPageFollowsInfo(user);
                         page = 1;
                         return;
                     case 2:
                         ++page;
-                        myPageFallowsInfo(user);
+                        myPageFollowsInfo(user);
                         return;
                     case 3:
                         page = 1;
@@ -111,29 +111,29 @@ public class MyPageView {
     }
 
     public static void outputMovieInfo(User user) {
-        System.out.printf("│    사용자명: %s %35s│%n",
+        System.out.printf("│    사용자명: %s %35s%n",
                 user.getName(),
                 ""
         );
-        System.out.printf("│    이메일: %s %35s│%n",
+        System.out.printf("│    이메일: %s %35s%n",
                 user.getEmail(),
                 ""
         );
-        System.out.printf("│    가입일: %s %35s│%n",
+        System.out.printf("│    가입일: %s %35s%n",
                 user.getJoinDate().toLocalDate(),
                 ""
         );
 
         System.out.println("│    활동 통계");
-        System.out.printf("│      작성 리뷰: %s %35s│%n",
+        System.out.printf("│      작성 리뷰: %s %35s%n",
                 user.getReviewCnt(),
                 ""
         );
-        System.out.printf("│      팔로잉: %s %33s│%n",
+        System.out.printf("│      팔로잉: %s %33s%n",
                 user.getFollowingCnt(),
                 ""
         );
-        System.out.printf("│      팔로워: %s %33s│%n",
+        System.out.printf("│      팔로워: %s %33s%n",
                 user.getFollowerCnt(),
                 ""
         );
@@ -150,23 +150,23 @@ public class MyPageView {
                 ├──────────────────────────────────────────────────┤""");
     }
 
-    private static void outputFallowsInfoHead() {
+    private static void outputFollowsInfoHead() {
         System.out.println("""
                 ┌──────────────────────────────────────────────────┐
                 │                👤 팔로우 목록                       │
                 ├──────────────────────────────────────────────────┤""");
     }
 
-    public static void outputFallowsInfo(List<User> users) {
+    public static void outputFollowsInfo(List<User> users) {
         usersStorge = new ArrayList<>();
         for (int i = 0; i < users.size(); i++) {
             int num = (page - 1) * size;
-            System.out.printf("│  [%d] %s%15s│%n",
+            System.out.printf("│  [%d] %s%15s%n",
                     num + i + 1,
                     users.get(i).getName(),
                     ""
             );
-            System.out.printf("│    리뷰: %d  │  팔로워: %d%15s│%n",
+            System.out.printf("│    리뷰: %d  │  팔로워: %d%15s%n",
                     users.get(i).getReviewCnt(),
                     users.get(i).getFollowerCnt(),
                     ""
@@ -175,7 +175,7 @@ public class MyPageView {
         }
     }
 
-    private static void outputFallowsInfoFoot() {
+    private static void outputFollowsInfoFoot() {
         System.out.println("""
                 ├──────────────────────────────────────────────────┤
                 │    1. 팔로우 삭제 하기                               │
@@ -184,7 +184,7 @@ public class MyPageView {
                 ├──────────────────────────────────────────────────┤""");
     }
 
-    private static void outputDeleteFallows() {
+    private static void outputDeleteFollows() {
         System.out.println("""
                 ├──────────────────────────────────────────────────┤
                 │    1. 어떤 팔로우를 삭제하시겠습니다? 번호를 입력해 주세요    │
