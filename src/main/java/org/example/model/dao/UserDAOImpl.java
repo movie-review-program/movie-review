@@ -69,7 +69,7 @@ public class UserDAOImpl implements UserDAO {
 				if (rs.next()) {
 					int followers = selectUserFollower(rs.getInt("user_no"));
 					int followings = selectUserFollowing(rs.getInt("user_no"));
-					int reviews = reviewDao.getReviewCount(rs.getInt("user_no"));
+					int reviews = reviewDao.getReviewCountByUserNo(rs.getInt("user_no"));
 
 					return new User(rs.getInt("user_no"),
 							rs.getString("email"),

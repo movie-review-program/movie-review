@@ -76,6 +76,7 @@ public class ReviewPageView {
                             }
                         }
                         page = 1;
+                        menu(user, type, no);
                         return;
                     case 2:
                         ++page;

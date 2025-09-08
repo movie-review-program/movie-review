@@ -15,7 +15,7 @@ public class MovieController {
         try {
             movieService.fetchMovieWithGenre(targetDate);
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 
@@ -24,7 +24,7 @@ public class MovieController {
         try {
             ReviewPageView.createReview(user, movieService.getMovieByMovieName(movieName));
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 
@@ -32,7 +32,7 @@ public class MovieController {
         try {
             MoviePageView.outputMovieBasicInfo(movieService.getMovieBasicInfo(page, size));
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 
@@ -41,7 +41,7 @@ public class MovieController {
             MoviePageView.outputMovieDetailInfo(
                     movieService.getMovieDetailInfo(movieNo));
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 }
