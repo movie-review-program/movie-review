@@ -6,7 +6,6 @@ import java.util.Scanner;
 
 import org.example.common.ReviewContext;
 import org.example.controller.MovieController;
-import org.example.model.dao.ReviewDao;
 import org.example.model.dto.Genre;
 import org.example.model.dto.Movie;
 import org.example.model.dto.User;

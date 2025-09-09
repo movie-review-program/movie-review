@@ -43,56 +43,33 @@ public class Review {
 		return reviewNo;
 	}
 
-	public void setReviewNo(int reviewNo) {
-		this.reviewNo = reviewNo;
-	}
 
 	public int getRating() {
 		return rating;
-	}
-
-	public void setRating(int rating) {
-		this.rating = rating;
 	}
 
 	public String getContent() {
 		return content;
 	}
 
-	public void setContent(String content) {
-		this.content = content;
-	}
-
 	public String getRegDate() {
 		return regDate;
-	}
-
-	public void setRegDate(String regDate) {
-		this.regDate = regDate;
 	}
 
 	public int getMovieNo() {
 		return movieNo;
 	}
 
-	public void setMovieNo(int movieNo) {
-		this.movieNo = movieNo;
-	}
-
 	public int getUserNo() {
 		return userNo;
 	}
 	
-	public void setUserNo(int userNo) {
-		this.userNo = userNo;
-	}	
-	
 	public int getLikeCnt() {
 		return likeCnt;
 	}
-	
-	public void setLikeCnt(int likeCnt) {
-		this.likeCnt = likeCnt;
+
+	public void setUserNo(int userNo) {
+		this.userNo = userNo;
 	}
 
 	@Override

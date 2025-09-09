@@ -1,8 +1,6 @@
 package org.example.model.dao;
 
-import org.example.model.dto.Movie;
 import org.example.model.dto.User;
-import org.example.model.dto.ReviewFeedDTO;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -74,21 +72,4 @@ public interface UserDAO {
 	 */
 	boolean isFollowing(int followerNo, int followingNo) throws Exception;
 
-	/**
-	 * 내가 팔로우한 사용자 목록 조회
-	 * 
-	 * @param followerNo 로그인한 사용자 번호
-	 * @return User 리스트
-	 * @throws Exception DB 오류
-	 */
-	List<User> getFollowingList(int followerNo) throws Exception;
-
-	/**
-	 * 내가 팔로우한 사용자들의 리뷰 최신순 조회
-	 * 
-	 * @param followerNo 로그인한 사용자 번호
-	 * @return ReviewFeedDTO 리스트 (작성자명, 영화명, 평점, 좋아요 수, 리뷰 내용, 작성일 포함)
-	 * @throws Exception DB 오류
-	 */
-	List<ReviewFeedDTO> getFollowingReviews(int followerNo) throws Exception;
 }

@@ -3,9 +3,7 @@ package org.example.util;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Properties;
 
 public class DBManagerImpl implements DBManager {
@@ -52,34 +50,5 @@ public class DBManagerImpl implements DBManager {
                 USER_PASS
         );
     }
-
-    /*
-     * 닫기 (select 전용)
-     * */
-    void releaseConnection(Connection con, Statement st, ResultSet rs) {
-        try {
-            if (rs != null)
-                rs.close();
-            releaseConnection(con, st);
-        } catch (SQLException e) {
-            throw new RuntimeException("mysql 닫기에 실패하였습니다." + e.getMessage());
-        }
-    }
-
-    /*
-     * 닫기 (DML 전용)
-     * */
-    void releaseConnection(Connection con, Statement st) {
-        try {
-            if (st != null)
-                st.close();
-            if (con != null)
-                con.close();
-        } catch (SQLException e) {
-            throw new RuntimeException("mysql 닫기에 실패하였습니다." + e.getMessage());
-        }
-    }
-
-
 }
 

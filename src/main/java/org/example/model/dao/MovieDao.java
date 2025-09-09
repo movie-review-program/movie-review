@@ -26,11 +26,6 @@ public interface MovieDao {
     List<Movie> selectMovieBasicPage(int page, int size) throws Exception;
 
     /**
-    * 영화 기본 정보 조회
-     * */
-    Movie selectMovieBasic(int movieNo) throws Exception;
-
-    /**
      * * 영화 상세 조회
      * */
     Movie selectMovieDetail(int movieNo) throws Exception;

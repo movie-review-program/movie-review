@@ -3,7 +3,6 @@ package org.example.model.service;
 import org.example.model.dao.UserDAO;
 import org.example.model.dao.UserDAOImpl;
 import org.example.model.dto.User;
-import org.example.model.dto.ReviewFeedDTO;
 
 import java.util.List;
 
@@ -12,7 +11,7 @@ import java.util.List;
  */
 public class UserServiceImpl implements UserService {
 	private static final UserService instance = new UserServiceImpl();
-	private UserDAO dao = new UserDAOImpl();
+	private final UserDAO dao = new UserDAOImpl();
 
 	public static UserService getInstance() {
 		return instance;
@@ -70,16 +69,6 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public boolean isFollowing(int followerNo, int followingNo) throws Exception {
 		return dao.isFollowing(followerNo, followingNo);
-	}
-
-	@Override
-	public List<User> getFollowingList(int followerNo) throws Exception {
-		return dao.getFollowingList(followerNo);
-	}
-
-	@Override
-	public List<ReviewFeedDTO> getFollowingReviews(int followerNo) throws Exception {
-		return dao.getFollowingReviews(followerNo);
 	}
 
 	//TODO: validationEmailAndPassword
