@@ -9,7 +9,7 @@ import org.example.view.MoviePageView;
 import org.example.view.ReviewPageView;
 
 public class MovieController {
-    private static MovieService movieService = MovieServiceImpl.getInstance();
+    private static final MovieService movieService = MovieServiceImpl.getInstance();
 
     public static void fetchMovieWithGenre(String targetDate) {
         try {

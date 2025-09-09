@@ -1,8 +1,6 @@
 package org.example.model.dao;
 
-import org.example.model.dto.Movie;
 import org.example.model.dto.User;
-import org.example.model.dto.ReviewFeedDTO;
 import org.example.util.DBManager;
 import org.example.util.DBManagerImpl;
 
@@ -179,58 +177,5 @@ public class UserDAOImpl implements UserDAO {
 				return rs.next();
 			}
 		}
-	}
-
-	@Override
-	public List<User> getFollowingList(int followerNo) throws Exception {
-		List<User> list = new ArrayList<>();
-		String sql = "SELECT u.user_no, u.email, u.password, u.name, u.join_date "
-				+ "FROM follows f JOIN users u ON f.following_no = u.user_no " + "WHERE f.follower_no = ?";
-
-		try (Connection conn = dbManager.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
-			pstmt.setInt(1, followerNo);
-			try (ResultSet rs = pstmt.executeQuery()) {
-				while (rs.next()) {
-					list.add(new User(
-							rs.getInt("user_no"),
-							rs.getString("email"),
-							rs.getString("password"),
-							rs.getString("name"),
-							rs.getTimestamp("join_date").toLocalDateTime())
-					);
-				}
-			}
-		}
-		return list;
-	}
-
-	@Override
-	public List<ReviewFeedDTO> getFollowingReviews(int followerNo) throws Exception {
-		List<ReviewFeedDTO> list = new ArrayList<>();
-		String sql = "SELECT u.name AS user_name, m.movie_name, r.rating, "
-				+ "       (SELECT COUNT(*) FROM likes l WHERE l.review_no = r.review_no) AS like_count, "
-				+ "       r.content, r.reg_date " + "FROM reviews r " + "JOIN users u ON r.user_no = u.user_no "
-				+ "JOIN movies m ON r.movie_no = m.movie_no "
-				+ "WHERE r.user_no IN (SELECT following_no FROM follows WHERE follower_no = ?) "
-				+ "ORDER BY r.reg_date DESC";
-
-		try (Connection conn = dbManager.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
-			pstmt.setInt(1, followerNo);
-			try (ResultSet rs = pstmt.executeQuery()) {
-				while (rs.next()) {
-					ReviewFeedDTO dto = new ReviewFeedDTO(
-							rs.getString("user_name"),
-							rs.getString("movie_name"),
-							rs.getInt("rating"),
-							rs.getInt("like_count"),
-							rs.getString("content"),
-							rs.getTimestamp("reg_date").toLocalDateTime()
-					);
-
-					list.add(dto);
-				}
-			}
-		}
-		return list;
 	}
 }

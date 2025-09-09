@@ -157,42 +157,6 @@ public class MovieDaoImpl implements MovieDao {
     }
 
     @Override
-    public Movie selectMovieBasic(int movieNo) throws Exception {
-        Movie movie = null;
-        String sql = """
-                select *
-                from movies
-                where movie_no = ?
-                """;
-        try (Connection con = dbManager.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setInt(1, movieNo);
-
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    int no = rs.getInt(1);
-                    List<Genre> genres = selectGenresByMovieNo(no);
-                    double ratings = reviewDao.getAverageRating(no);
-                    int reviewCnt = reviewDao.getReviewCount(no);
-
-                    movie = new Movie(
-                            no,
-                            rs.getString(2),
-                            rs.getString(3),
-                            rs.getDate(4).toLocalDate(),
-                            rs.getString(5),
-                            rs.getInt(6),
-                            genres,
-                            ratings,
-                            reviewCnt
-                    );
-                }
-            }
-        }
-        return movie;
-    }
-
-    @Override
     public Movie selectMovieDetail(int movieNo) throws Exception {
         Movie movie = null;
         String sql = """

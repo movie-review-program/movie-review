@@ -1,7 +1,6 @@
 package org.example.model.dto;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 public class Movie {
@@ -30,31 +29,6 @@ public class Movie {
         this.plot = plot;
         this.audiCnt = audiCnt;
         this.genreDTOS = genreDTOS;
-    }
-
-    public Movie(int movieNo, String movieName, String director, LocalDate openDate, String plot, int audiCnt,
-            List<Genre> genreDTOS) {
-        super();
-        this.movieNo = movieNo;
-        this.movieName = movieName;
-        this.director = director;
-        this.openDate = openDate;
-        this.plot = plot;
-        this.audiCnt = audiCnt;
-        this.genreDTOS = genreDTOS;
-    }
-
-    public Movie(int movieNo, String movieName, LocalDate openDate, String director, String plot, int audiCnt,
-            List<Genre> genreDTOS, double ratings) {
-        super();
-        this.movieNo = movieNo;
-        this.movieName = movieName;
-        this.director = director;
-        this.openDate = openDate;
-        this.plot = plot;
-        this.audiCnt = audiCnt;
-        this.genreDTOS = genreDTOS;
-        this.ratings = ratings;
     }
 
     public Movie(int movieNo, String movieName, String director, LocalDate openDate, String plot, int audiCnt,

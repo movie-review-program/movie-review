@@ -1,7 +1,6 @@
 package org.example.controller;
 
 import org.example.model.dto.User;
-import org.example.model.dto.ReviewFeedDTO;
 import org.example.model.service.UserService;
 import org.example.model.service.UserServiceImpl;
 import org.example.util.SessionManager;
@@ -10,17 +9,14 @@ import org.example.view.MainPageView;
 import org.example.view.MyPageView;
 import org.example.view.ReviewPageView;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * UserController
  * - View와 Service를 연결하는 역할
  * - 로그인/로그아웃 시 세션(SessionManagerImpl) 관리까지 포함
  */
 public class UserController {
-    private static UserService userService = UserServiceImpl.getInstance();
-    private static SessionManager sm = SessionManagerImpl.getInstance();
+    private static final UserService userService = UserServiceImpl.getInstance();
+    private static final SessionManager sm = SessionManagerImpl.getInstance();
 
     public static void login(String email, String password) {
         try {
@@ -63,10 +59,6 @@ public class UserController {
         SessionManagerImpl.getInstance().logout();
     }
 
-    public User getCurrentUser() {
-        return SessionManagerImpl.getInstance().getLoggedInUser();
-    }
-
     public static void followUser(int followerNo, int followingNo) {
         try {
         	if (userService.isFollowing(followerNo, followingNo))
@@ -97,21 +89,8 @@ public class UserController {
         }
     }
 
-    public static List<User> getFollowingList(int followerNo) {
-        try {
-            return userService.getFollowingList(followerNo);
-        } catch (Exception e) {
-            System.out.println("팔로우 목록 조회 실패: " + e.getMessage());
-            return new ArrayList<>();
-        }
-    }
-
-    public static List<ReviewFeedDTO> getFollowingReviews(int followerNo) {
-        try {
-            return userService.getFollowingReviews(followerNo);
-        } catch (Exception e) {
-            System.out.println("팔로잉 리뷰 조회 실패: " + e.getMessage());
-            return new ArrayList<>();
-        }
+    //TODO: userSession 인증
+    private User getCurrentUser() {
+        return SessionManagerImpl.getInstance().getLoggedInUser();
     }
 }

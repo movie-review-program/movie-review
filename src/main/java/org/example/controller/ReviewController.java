@@ -16,15 +16,14 @@ import org.example.model.service.UserServiceImpl;
 import org.example.view.ReviewPageView;
 
 public class ReviewController {
-	private static ReviewService reviewService = ReviewServiceImpl.getInstance();
-	private static MovieService movieService = MovieServiceImpl.getInstance();
-	private static UserService userService = UserServiceImpl.getInstance();
+	private static final ReviewService reviewService = ReviewServiceImpl.getInstance();
+	private static final MovieService movieService = MovieServiceImpl.getInstance();
+	private static final UserService userService = UserServiceImpl.getInstance();
 	
 	/**
 	 * 리뷰 상세 보기 선택 시 호출
 	 * 리뷰 번호를 이용해 리뷰를 조회하고, 영화와 유저의 정보를 조회한 후 View의 리뷰 상세 보기 메소드를 호출해서 보여준다.
 	 * @param userNo : 세션 연결 확인을 위해 필요
-	 * @param reviewNo
 	 */
 	public static void findReviewByReviewNo(int userNo, int reviewNo) {
 		try {
@@ -44,7 +43,6 @@ public class ReviewController {
 	 * @param no : 
 	 * 	영화-"어떤 영화"의 리뷰를 볼 건지 / 유저-"어떤 유저"의 리뷰를 볼 건지 / 
 	 * 	좋아요-"현재 유저"가 좋아요 한 리뷰 / 팔로우-"현재 유저"가 팔로우한 유저들의 리뷰
-	 * @param page
 	 */
 	public static void getReviewsPreview(ReviewContext type, int no, int page) {
 		try {

@@ -1,7 +1,6 @@
 package org.example.model.service;
 
 import org.example.model.dto.User;
-import org.example.model.dto.ReviewFeedDTO;
 import java.util.List;
 
 /**
@@ -26,7 +25,4 @@ public interface UserService {
 
     boolean isFollowing(int followerNo, int followingNo) throws Exception;
 
-    List<User> getFollowingList(int followerNo) throws Exception;
-
-    List<ReviewFeedDTO> getFollowingReviews(int followerNo) throws Exception;
 }
