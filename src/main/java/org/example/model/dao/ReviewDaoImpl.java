@@ -28,10 +28,10 @@ public class ReviewDaoImpl implements ReviewDao {
 		String sql = "select * from reviews where review_no = ?";
 		
 		try (Connection con = dbManager.getConnection();
-				PreparedStatement ps = con.prepareStatement(sql);) {
+				PreparedStatement ps = con.prepareStatement(sql)) {
 			ps.setInt(1, reviewNo);
 			
-			try (ResultSet rs = ps.executeQuery();) {
+			try (ResultSet rs = ps.executeQuery()) {
 				if (rs.next()) {
 					int likeCnt = this.getLikeCount(reviewNo);
 					review = new Review(
@@ -65,12 +65,12 @@ public class ReviewDaoImpl implements ReviewDao {
 			sql = "select * from reviews where user_no = ? order by reg_date desc limit ? offset ?";
 		
 		try (Connection con = dbManager.getConnection();
-				PreparedStatement ps = con.prepareStatement(sql);) {
+				PreparedStatement ps = con.prepareStatement(sql)) {
 			ps.setInt(1, no);
 			ps.setInt(2, size);
 			ps.setInt(3, offset);
 			
-			try (ResultSet rs = ps.executeQuery();) {
+			try (ResultSet rs = ps.executeQuery()) {
 				while (rs.next()) {
 					int reviewNo = rs.getInt(1);
 					int likeCnt = this.getLikeCount(reviewNo);
@@ -105,10 +105,10 @@ public class ReviewDaoImpl implements ReviewDao {
 			sql = "select following_no from follows where follower_no = ?";
 		
 		try (Connection con = dbManager.getConnection();
-				PreparedStatement ps = con.prepareStatement(sql);) {
+				PreparedStatement ps = con.prepareStatement(sql)) {
 			ps.setInt(1, no);
 			
-			try (ResultSet rs = ps.executeQuery();) {
+			try (ResultSet rs = ps.executeQuery()) {
 				while (rs.next()) {
 					reviewNoList.add(rs.getInt(1));
 				}
@@ -138,11 +138,11 @@ public class ReviewDaoImpl implements ReviewDao {
 			sql = "select * from reviews where user_no in (" + nos + ") "
 					+ "order by reg_date desc limit ? offset ?";
 		
-		try (PreparedStatement ps = con.prepareStatement(sql);) {
+		try (PreparedStatement ps = con.prepareStatement(sql)) {
 			ps.setInt(1, size);
 			ps.setInt(2, offset);
 			
-			try (ResultSet rs = ps.executeQuery();) {
+			try (ResultSet rs = ps.executeQuery()) {
 				while (rs.next()) {
 					int reviewNo = rs.getInt(1);
 					int likeCnt = this.getLikeCount(reviewNo);
@@ -170,10 +170,10 @@ public class ReviewDaoImpl implements ReviewDao {
 		String sql = "select count(*) from reviews where movie_no = ?";
 		
 		try (Connection con = dbManager.getConnection();
-				PreparedStatement ps = con.prepareStatement(sql);) {
+				PreparedStatement ps = con.prepareStatement(sql)) {
 			ps.setInt(1, movieNo);
 			
-			try (ResultSet rs = ps.executeQuery();) {
+			try (ResultSet rs = ps.executeQuery()) {
 				if (rs.next()) {
 					count = rs.getInt(1);
 				}
@@ -192,10 +192,10 @@ public class ReviewDaoImpl implements ReviewDao {
 		String sql = "select count(*) from reviews where user_no = ?";
 
 		try (Connection con = dbManager.getConnection();
-			 PreparedStatement ps = con.prepareStatement(sql);) {
+			 PreparedStatement ps = con.prepareStatement(sql)) {
 			ps.setInt(1, userNo);
 
-			try (ResultSet rs = ps.executeQuery();) {
+			try (ResultSet rs = ps.executeQuery()) {
 				if (rs.next()) {
 					count = rs.getInt(1);
 				}
@@ -214,10 +214,10 @@ public class ReviewDaoImpl implements ReviewDao {
 		String sql = "select avg(rating) from reviews where movie_no = ?"; 
 		
 		try (Connection con = dbManager.getConnection();
-				PreparedStatement ps = con.prepareStatement(sql);) {
+				PreparedStatement ps = con.prepareStatement(sql)) {
 			ps.setInt(1, movieNo);
 			
-			try (ResultSet rs = ps.executeQuery();) {
+			try (ResultSet rs = ps.executeQuery()) {
 				if (rs.next()) {
 					avg = rs.getInt(1);
 				}
@@ -237,7 +237,7 @@ public class ReviewDaoImpl implements ReviewDao {
 				+ "values(?, ?, ?, ?);";
 		
 		try (Connection con = dbManager.getConnection();
-				PreparedStatement ps = con.prepareStatement(sql);) {
+				PreparedStatement ps = con.prepareStatement(sql)) {
 			ps.setInt(1, review.getRating());
 			ps.setString(2, review.getContent());
 			ps.setInt(3, review.getUserNo());
@@ -258,7 +258,7 @@ public class ReviewDaoImpl implements ReviewDao {
 		String sql = "update reviews set rating = ?, content = ? where user_no = ? and movie_no = ?";
 		
 		try (Connection con = dbManager.getConnection();
-				PreparedStatement ps = con.prepareStatement(sql);) {
+				PreparedStatement ps = con.prepareStatement(sql)) {
 			ps.setInt(1, review.getRating());
 			ps.setString(2, review.getContent());
 			ps.setInt(3, review.getUserNo());
@@ -279,7 +279,7 @@ public class ReviewDaoImpl implements ReviewDao {
 		String sql = "delete from reviews where review_no = ?";
 		
 		try (Connection con = dbManager.getConnection();
-				PreparedStatement ps = con.prepareStatement(sql);) {
+				PreparedStatement ps = con.prepareStatement(sql)) {
 			ps.setInt(1, reviewNo);
 			
 			result = ps.executeUpdate();
@@ -298,7 +298,7 @@ public class ReviewDaoImpl implements ReviewDao {
 				+ "values(?, ?);";
 		
 		try (Connection con = dbManager.getConnection();
-				PreparedStatement ps = con.prepareStatement(sql);) {
+				PreparedStatement ps = con.prepareStatement(sql)) {
 			ps.setInt(1, userNo);
 			ps.setInt(2, reviewNo);
 			
@@ -317,7 +317,7 @@ public class ReviewDaoImpl implements ReviewDao {
 		String sql = "delete from likes where user_no = ? and review_no = ?";
 		
 		try (Connection con = dbManager.getConnection();
-				PreparedStatement ps = con.prepareStatement(sql);) {
+				PreparedStatement ps = con.prepareStatement(sql)) {
 			ps.setInt(1, userNo);
 			ps.setInt(2, reviewNo);
 			
@@ -336,10 +336,10 @@ public class ReviewDaoImpl implements ReviewDao {
 		String sql = "select count(user_no) from likes where review_no = ?";
 		
 		try (Connection con = dbManager.getConnection();
-				PreparedStatement ps = con.prepareStatement(sql);) {
+				PreparedStatement ps = con.prepareStatement(sql)) {
 			ps.setInt(1, reviewNo);
 			
-			try (ResultSet rs = ps.executeQuery();) {
+			try (ResultSet rs = ps.executeQuery()) {
 				if (rs.next()) {
 					count = rs.getInt(1);
 				}
